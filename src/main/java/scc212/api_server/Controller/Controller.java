@@ -13,15 +13,19 @@ import java.util.List;
 @RestController
 public class Controller
 {
-    private String yesterday = null;
-	public int kk = 0;
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
     private JdbcTemplate jdbcTemplate;
     private CountryDAO country = new CountryDAO();
     private WorldHistoryDAO worldHistory = new WorldHistoryDAO();
+    //Tian Yu Added
+    private HistoryInfoDAO proHisData = new HistoryInfoDAO();
+    private CurrentProDAO currentPro = new CurrentProDAO();
+    private NationDAO nation = new NationDAO();
+    private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
+    private NationHistoryDAO nationalHistory = new NationHistoryDAO();
 
 
-    public Controller() {
+    public Controller()
+    {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
@@ -30,6 +34,9 @@ public class Controller
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    /*
+    For the APIs of the world expect China.
+     */
     @RequestMapping("/get/Country")
     public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
         country.reset();
@@ -47,4 +54,67 @@ public class Controller
         worldHistory.access();
         return worldHistory.getCountry();
     }
+
+    /*
+    For the APIs of China
+     */
+
+    @RequestMapping("/get/CurrentProInfo")
+    public List getCityInfo(@RequestParam(value = "proName" , required = false, defaultValue = "all") String name)
+    {
+        currentPro.reset();
+        currentPro.setInput(name);
+        currentPro.setJdbc(this.jdbcTemplate);
+        currentPro.access();
+        return currentPro.getPor();
+    }
+
+    @RequestMapping(value = "/get/getHistoryData")
+    public Object getHistoryData(@RequestParam(value = "proName") String name,
+                               @RequestParam(value = "date", required = false, defaultValue = "all") String date)
+    {
+        proHisData.reset();
+        proHisData.setParaPro(name);
+        proHisData.setParaDate(date);
+        proHisData.setJdbc(this.jdbcTemplate);
+        proHisData.access();
+        return proHisData.returnList();
+    }
+
+    @RequestMapping("/get/CurrentChina")
+    public Object getNation()
+    {
+        nation.reset();
+        nation.setJdbc(this.jdbcTemplate);
+        nation.access();
+        return nation.getNation();
+    }
+
+    @RequestMapping("/get/CurrentCities")
+    public Object getProWithCities(@RequestParam(value = "proName") String name)
+    {
+        cities.reset();
+        cities.setJdbc(this.jdbcTemplate);
+        cities.setInput(name);
+        cities.access();
+        return cities.getCityObjects();
+    }
+    
+    @RequestMapping("/get/NationHistory")
+    public Object getChinaHistory(@RequestParam(value = "date") String date)
+    {
+        nationalHistory.reset();
+        nationalHistory.setJdbcTemplate(this.jdbcTemplate);
+        nationalHistory.setInput(date);
+        nationalHistory.access();
+        return nationalHistory.getNationalHistory();
+    }
+    @RequestMapping("/chart")
+    public Object getNationChart(@RequestParam(value = "type") String type)
+    {
+
+        return null;
+    }
+
+
 }
