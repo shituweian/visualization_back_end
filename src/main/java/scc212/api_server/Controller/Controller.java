@@ -14,6 +14,7 @@ import java.util.List;
 public class Controller
 {
     private String yesterday = null;
+	public int kk = 0;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
     private JdbcTemplate jdbcTemplate;
     private CountryDAO country = new CountryDAO();
