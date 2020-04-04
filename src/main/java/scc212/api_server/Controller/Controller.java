@@ -22,13 +22,14 @@ public class Controller
     private NationDAO nation = new NationDAO();
     private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
     private NationHistoryDAO nationalHistory = new NationHistoryDAO();
+    private NationChartDAO nationChart = new NationChartDAO();
 
 
     public Controller()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -109,11 +110,14 @@ public class Controller
         nationalHistory.access();
         return nationalHistory.getNationalHistory();
     }
-    @RequestMapping("/chart")
+    @RequestMapping("/NationChart")
     public Object getNationChart(@RequestParam(value = "type") String type)
     {
-
-        return null;
+        nationChart.reset();
+        nationChart.setInput(type);
+        nationChart.setJdbc(this.jdbcTemplate);
+        nationChart.access();
+        return nationChart.getReturnChart();
     }
 
 

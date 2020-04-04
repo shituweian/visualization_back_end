@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Main-Class: scc212.api_server.ApiServerApplication
+Class-Path: spring-beans-5.2.4.RELEASE.jar jackson-core-2.10.2.jar jul-t
+ o-slf4j-1.7.30.jar spring-aop-5.2.4.RELEASE.jar jakarta.validation-api-
+ 2.0.2.jar spring-boot-2.2.5.RELEASE.jar snakeyaml-1.25.jar spring-boot-
+ starter-web-2.2.5.RELEASE.jar spring-boot-starter-json-2.2.5.RELEASE.ja
+ r jackson-datatype-jsr310-2.10.2.jar jboss-logging-3.4.1.Final.jar jack
+ son-module-parameter-names-2.10.2.jar jackson-databind-2.10.2.jar log4j
+ -to-slf4j-2.12.1.jar hibernate-validator-6.0.18.Final.jar mysql-connect
+ or-java-8.0.19.jar tomcat-embed-websocket-9.0.31.jar jackson-datatype-j
+ dk8-2.10.2.jar spring-boot-starter-tomcat-2.2.5.RELEASE.jar logback-cor
+ e-1.2.3.jar spring-web-5.2.4.RELEASE.jar spring-context-5.2.4.RELEASE.j
+ ar mssql-jdbc-7.4.1.jre8.jar jackson-annotations-2.10.2.jar spring-tx-5
+ .2.4.RELEASE.jar logback-classic-1.2.3.jar spring-boot-autoconfigure-2.
+ 2.5.RELEASE.jar spring-data-commons-2.2.5.RELEASE.jar tomcat-embed-core
+ -9.0.31.jar spring-jcl-5.2.4.RELEASE.jar spring-core-5.2.4.RELEASE.jar 
+ spring-boot-starter-2.2.5.RELEASE.jar spring-boot-starter-data-jdbc-2.2
+ .5.RELEASE.jar tomcat-embed-el-9.0.31.jar jakarta.annotation-api-1.3.5.
+ jar log4j-api-2.12.1.jar spring-boot-starter-validation-2.2.5.RELEASE.j
+ ar spring-data-jdbc-1.1.5.RELEASE.jar spring-boot-starter-jdbc-2.2.5.RE
+ LEASE.jar spring-webmvc-5.2.4.RELEASE.jar classmate-1.5.1.jar spring-jd
+ bc-5.2.4.RELEASE.jar HikariCP-3.4.2.jar spring-data-relational-1.1.5.RE
+ LEASE.jar spring-expression-5.2.4.RELEASE.jar slf4j-api-1.7.30.jar spri
+ ng-boot-starter-logging-2.2.5.RELEASE.jar
+
