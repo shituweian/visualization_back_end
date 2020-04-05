@@ -8,7 +8,9 @@ public class NationChart
     private String chartName;
     private List<String> echartX1 = new ArrayList<String>();
     private List<String> echartX2 = new ArrayList<String>();
-    private List<String> echartY = new ArrayList<String>();
+    private List<Integer> echartY1 = new ArrayList<Integer>();
+
+    private List<Integer> echartY2 = new ArrayList<Integer>();
 
     public void addEchartX1(String item)
     {
@@ -20,9 +22,23 @@ public class NationChart
         this.echartX2.add(item);
     }
 
-    public void addEchartY(String item)
+    public void addEchartY1(int item)
     {
-        this.echartY.add(item);
+        this.echartY1.add(item);
+    }
+
+    public void addEchartY2(int item)
+    {
+        this.echartY2.add(item);
+    }
+
+
+    public List<Integer> getEchartY2() {
+        return echartY2;
+    }
+
+    public void setEchartY2(List<Integer> echartY2) {
+        this.echartY2 = echartY2;
     }
 
     public String getChartName()
@@ -57,14 +73,15 @@ public class NationChart
     }
 
 
-    public List getEchartY()
+    public List getEchartY1()
     {
-        return echartY;
+        return echartY1;
     }
 
-    public void setEchartY(List echartY)
+    public void setEchartY1(List echartY)
     {
-        this.echartY = echartY;
+        this.echartY1 = echartY;
     }
+
 
 }

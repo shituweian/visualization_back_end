@@ -1,7 +1,6 @@
 package scc212.api_server.DAO;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import scc212.api_server.Entity.NationHistory;
 import scc212.api_server.Entity.ProHistoryBean;
 
@@ -27,12 +26,7 @@ public class NationHistoryDAO
 
     public NationHistoryDAO()
     {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");//这里需要加?useSSL=false&serverTimezone=UTC 具体什么意思去看我mysql8.0连接jdbc那一篇文章
-        dataSource.setUsername("root");
-        dataSource.setPassword("2020");
-        jdbcTemplate = new JdbcTemplate(dataSource);
+
     }
 
     public void access()
@@ -103,7 +97,7 @@ public class NationHistoryDAO
         this.input = input;
     }
 
-    public Object getNationalHistory()
+    public NationHistory getNationalHistory()
     {
         return this.nationHistory;
     }

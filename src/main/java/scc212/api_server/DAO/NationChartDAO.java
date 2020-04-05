@@ -4,7 +4,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import scc212.api_server.Entity.CityBean;
 import scc212.api_server.Entity.NationChart;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -16,17 +20,46 @@ public class NationChartDAO
     private JdbcTemplate jdbcTemplate;
     //Api type
     private String input;
+    //Sql query statement
     private String sql;
     private NationChart returnChart = new NationChart();
-    private List<CityBean> topTen = new ArrayList<CityBean>();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    private Date date = null;
+    private Calendar cld;
+    private List<String> dates = new ArrayList<String>();
+    private NationHistoryDAO nationHistory = new NationHistoryDAO();
 
-
-
+    public NationChartDAO()
+    {
+        try {
+            date = dateFormat.parse("20200120");
+            Date thisday = new Date();
+            String today = dateFormat.format(thisday);
+            String oneday = dateFormat.format(date);
+            while(Integer.parseInt(oneday) < Integer.parseInt(today))
+            {
+                cld = Calendar.getInstance();
+                cld.setTime(date);
+                cld.add(Calendar.DATE, 3);
+                date = cld.getTime();
+                oneday = dateFormat.format(date);
+                if(Integer.parseInt(oneday) > Integer.parseInt(today))
+                    break;
+                dates.add(oneday);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void access()
     {
         if(this.input.equals("overSeaInputTop10"))
             overSeaInput();
+        else if(this.input.equals("cityEpidemicCompare"))
+            cityEpidemicCompare();
+        else if(this.input.equals("nationHistoryChart"))
+            nationHistory();
     }
 
     public void overSeaInput()
@@ -39,9 +72,30 @@ public class NationChartDAO
             //Chinese name
             returnChart.addEchartX1(info.get(i).toString().split(",")[0].split("=")[1]);
             //Confirmed count
-            returnChart.addEchartY(info.get(i).toString().split(",")[1].split("=")[1]);
+            returnChart.addEchartY1(Integer.parseInt(info.get(i).toString().split(",")[1].split("=")[1]));
             //English name
             returnChart.addEchartX2(info.get(i).toString().split(",")[2].split("=")[1].split("}")[0]);
+        }
+    }
+
+    public void cityEpidemicCompare()
+    {
+        sql = "";
+    }
+
+    public void nationHistory()
+    {
+        returnChart.setChartName("Nation Increase-Information Chart");
+            //Initialize the date
+        nationHistory.setJdbcTemplate(this.jdbcTemplate);
+        for(int i = 0; i < dates.size(); i++)
+        {
+            returnChart.addEchartX1(dates.get(i));
+            nationHistory.reset();
+            nationHistory.setInput(dates.get(i));
+            nationHistory.access();
+            returnChart.addEchartY1(nationHistory.getNationalHistory().getConfirmedIncr());
+            returnChart.addEchartY2(nationHistory.getNationalHistory().getDeadIncr());
         }
     }
 
@@ -68,6 +122,8 @@ public class NationChartDAO
     public void reset()
     {
         this.sql = null;
+        date = null;
         returnChart = new NationChart();
+        nationHistory.reset();
     }
 }
