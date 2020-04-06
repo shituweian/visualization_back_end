@@ -70,7 +70,7 @@ public class Controller
         return currentPro.getPor();
     }
 
-    @RequestMapping(value = "/get/getHistoryData")
+    @RequestMapping(value = "/get/getProHistoryData")
     public Object getHistoryData(@RequestParam(value = "proName") String name,
                                @RequestParam(value = "date", required = false, defaultValue = "all") String date)
     {
@@ -119,6 +119,4 @@ public class Controller
         nationChart.access();
         return nationChart.getReturnChart();
     }
-
-
 }

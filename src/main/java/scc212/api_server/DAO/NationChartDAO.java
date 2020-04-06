@@ -28,6 +28,7 @@ public class NationChartDAO
     private Calendar cld;
     private List<String> dates = new ArrayList<String>();
     private NationHistoryDAO nationHistory = new NationHistoryDAO();
+    private HistoryInfoDAO hubei = new HistoryInfoDAO();
 
     public NationChartDAO()
     {
@@ -40,7 +41,7 @@ public class NationChartDAO
             {
                 cld = Calendar.getInstance();
                 cld.setTime(date);
-                cld.add(Calendar.DATE, 3);
+                cld.add(Calendar.DATE, 1);
                 date = cld.getTime();
                 oneday = dateFormat.format(date);
                 if(Integer.parseInt(oneday) > Integer.parseInt(today))
@@ -54,12 +55,19 @@ public class NationChartDAO
 
     public void access()
     {
+        /*
+        Over sea input top10 provinces.
+
+
+         */
         if(this.input.equals("overSeaInputTop10"))
             overSeaInput();
         else if(this.input.equals("cityEpidemicCompare"))
             cityEpidemicCompare();
         else if(this.input.equals("nationHistoryChart"))
             nationHistory();
+        else if(this.input.equals("historyInfoForHubei"))
+            historyHubei();
     }
 
     public void overSeaInput()
@@ -86,7 +94,10 @@ public class NationChartDAO
     public void nationHistory()
     {
         returnChart.setChartName("Nation Increase-Information Chart");
-            //Initialize the date
+        returnChart.setComment("Note: x1 is date; y1 is total confirmed, " +
+                "y2 is confirmed increase; y3 is current comfirmed count" +
+                "y4 is total cured count; y5 is total dead count.");
+        //Initialize the date
         nationHistory.setJdbcTemplate(this.jdbcTemplate);
         for(int i = 0; i < dates.size(); i++)
         {
@@ -94,14 +105,35 @@ public class NationChartDAO
             nationHistory.reset();
             nationHistory.setInput(dates.get(i));
             nationHistory.access();
-            returnChart.addEchartY1(nationHistory.getNationalHistory().getConfirmedIncr());
-            returnChart.addEchartY2(nationHistory.getNationalHistory().getDeadIncr());
+            //Total confirmed count
+            returnChart.addEchartY1(nationHistory.getNationalHistory().getConfirmedCount());
+            //Confirmed increase
+            returnChart.addEchartY2(nationHistory.getNationalHistory().getConfirmedIncr());
+            //Current confirmed
+            returnChart.addEchartY3(nationHistory.getNationalHistory().getCurrentConfirmedCount());
+            //Total cured count
+            returnChart.addEchartY4(nationHistory.getNationalHistory().getCuredCount());
+            //Total dead count
+            returnChart.addEchartY5(nationHistory.getNationalHistory().getDeadCount());
         }
     }
 
-    public void sortList(List info)
+    public void historyHubei()
     {
-
+        returnChart.setChartName("Hubei covid_19 info");
+        returnChart.setComment("Note: x is date; y1 is confirmed count; y2 is cured count; y3 is dead count");
+        hubei.setJdbc(this.jdbcTemplate);
+        hubei.reset();
+        hubei.setParaPro("Hubei");
+        hubei.setParaDate("all");
+        hubei.access();
+        for(int i = 0; i < hubei.getProvinces().size(); i++)
+        {
+            returnChart.addEchartX1(hubei.getProvinces().get(i).getDate());
+            returnChart.addEchartY1(Integer.parseInt(hubei.getProvinces().get(i).getConfirmedCount()));
+            returnChart.addEchartY2(Integer.parseInt(hubei.getProvinces().get(i).getCuredCount()));
+            returnChart.addEchartY3(Integer.parseInt(hubei.getProvinces().get(i).getDeadCount()));
+        }
     }
 
     public NationChart getReturnChart()

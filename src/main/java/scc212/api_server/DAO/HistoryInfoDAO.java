@@ -3,7 +3,6 @@ package scc212.api_server.DAO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import scc212.api_server.Entity.ProHistory;
 import scc212.api_server.Entity.ProHistoryBean;
-import scc212.api_server.Entity.ProHistoryBean;
 
 import java.util.*;
 
