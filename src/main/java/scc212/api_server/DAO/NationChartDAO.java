@@ -75,6 +75,7 @@ public class NationChartDAO
         sql = "select map_province_name, confirmed_count, pinyin from city,protoen where city.city_name like '境外%' and protoen.Name=city.map_province_name order by city.confirmed_count DESC ";
         List info = this.jdbcTemplate.queryForList(sql);
         returnChart.setChartName("Oversea Input Top10");
+        returnChart.setComment("Oversea Input Top10 of China");
         for(int i = 0; i < 10; i++)
         {
             //Chinese name
