@@ -47,11 +47,11 @@ public class WorldHistoryDAO {
         String chineseName = jdbcTemplate.queryForObject(sql, String.class);
 
         if (inputDate.equals("all") == false) {
-            sql = "select * from foreign_history where area_name = '" + chineseName + "' AND date_id='" + inputDate + "'";
+            sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName + "' AND date_id='" + inputDate + "'";
             queryData(sql);
         }
         else if (inputDate.equals("all") == true) {
-            sql = "select * from foreign_history where area_name = '" + chineseName +  "'";
+            sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName +  "'";
             queryData(sql);
         }
     }
@@ -106,7 +106,7 @@ public class WorldHistoryDAO {
         }
     }
 
-    public ArrayList<WorldHistory> getCountry() {
+    public List getCountry() {
         return country;
     }
 

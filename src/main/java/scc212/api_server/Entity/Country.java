@@ -4,6 +4,7 @@ public class Country {
     private String country_name;
     private String country_name_en;
     private String continent_name;
+    private String continent_name_en;
     private int current_confirmed_count;
     private int confirmed_count;
     private int suspected_count;
@@ -31,6 +32,13 @@ public class Country {
     }
     public String getContinent_name() {
         return continent_name;
+    }
+
+    public void setContinent_name_en(String continent_name_en) {
+        this.continent_name_en = continent_name_en;
+    }
+    public String getContinent_name_en() {
+        return continent_name_en;
     }
 
     public void setCurrent_confirmed_count(int current_confirmed_count) {
