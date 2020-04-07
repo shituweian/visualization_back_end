@@ -1,7 +1,6 @@
 package scc212.api_server.DAO;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import scc212.api_server.Entity.CityBean;
 import scc212.api_server.Entity.NationChart;
 
 import java.text.ParseException;
@@ -57,13 +56,11 @@ public class NationChartDAO
     {
         /*
         Over sea input top10 provinces.
-
-
          */
         if(this.input.equals("overSeaInputTop10"))
             overSeaInput();
-        else if(this.input.equals("cityEpidemicCompare"))
-            cityEpidemicCompare();
+        else if(this.input.equals("provinceCompare"))
+            provinceCompare();
         else if(this.input.equals("nationHistoryChart"))
             nationHistory();
         else if(this.input.equals("historyInfoForHubei"))
@@ -87,16 +84,31 @@ public class NationChartDAO
         }
     }
 
-    public void cityEpidemicCompare()
+    //Compare between provinces of current count.
+    public void provinceCompare()
     {
-        sql = "";
+        returnChart.setChartName("Province Compaction Chart");
+        returnChart.setComment("x1 is provinces without cases; x2 is provinces have cases; " +
+                "y1 is number of province that have and have not cases.");
+        sql = "SELECT protoen.pinyin FROM province, protoen WHERE current_confirmed_count=0 and " +
+                "province.location_id=protoen.ID";
+        List info1 = this.jdbcTemplate.queryForList(sql, String.class);
+        sql = "SELECT protoen.pinyin FROM province, protoen WHERE current_confirmed_count!=0 and " +
+                "province.location_id=protoen.ID";
+        List info2 = this.jdbcTemplate.queryForList(sql, String.class);
+        int withoutCase = info1.size();
+        int existCase = 34 - withoutCase;
+        returnChart.setEchartX1(info1);
+        returnChart.setEchartX2(info2);
+        returnChart.addEchartY1(withoutCase);
+        returnChart.addEchartY1(existCase);
     }
 
     public void nationHistory()
     {
         returnChart.setChartName("Nation Increase-Information Chart");
-        returnChart.setComment("Note: x1 is date; y1 is total confirmed, " +
-                "y2 is confirmed increase; y3 is current comfirmed count" +
+        returnChart.setComment("x1 is date; y1 is total confirmed, " +
+                "y2 is confirmed increase; y3 is current confirmed count" +
                 "y4 is total cured count; y5 is total dead count.");
         //Initialize the date
         nationHistory.setJdbcTemplate(this.jdbcTemplate);
@@ -119,10 +131,11 @@ public class NationChartDAO
         }
     }
 
+    //Data for Hubei province.
     public void historyHubei()
     {
         returnChart.setChartName("Hubei covid_19 info");
-        returnChart.setComment("Note: x is date; y1 is confirmed count; y2 is cured count; y3 is dead count");
+        returnChart.setComment("x is date; y1 is confirmed count; y2 is cured count; y3 is dead count");
         hubei.setJdbc(this.jdbcTemplate);
         hubei.reset();
         hubei.setParaPro("Hubei");
@@ -136,6 +149,7 @@ public class NationChartDAO
             returnChart.addEchartY3(Integer.parseInt(hubei.getProvinces().get(i).getDeadCount()));
         }
     }
+
 
     public NationChart getReturnChart()
     {

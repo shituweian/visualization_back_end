@@ -32,6 +32,7 @@ public class ProvinceWithCitiesDAO
         sql = "select pinyin, Name, ID from protoen where shortName = '" + input
                 + "' or Name = '" + input + "' or pinyin = '" + input + "'";
         List info = this.jdbcTemplate.queryForList(sql);
+        //Get city English name.
         String pinyin = info.get(0).toString().split(",")[0].split("=")[1].split("}")[0];
         String Name = info.get(0).toString().split(",")[1].split("=")[1].split("}")[0];
         String proID = info.get(0).toString().split(",")[2].split("=")[1].split("}")[0];
@@ -40,7 +41,9 @@ public class ProvinceWithCitiesDAO
         provinces.setProNameEN(pinyin);
         sql = "select * from city where map_province_name = '" + Name + "'";
         List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql);
+        //Query and analyze the records.
         readInfo(list);
+        //Sort the data from big to small.
         sortList(city);
     }
 
@@ -156,7 +159,7 @@ public class ProvinceWithCitiesDAO
         return provinces;
     }
 
-    //Get the first char of the name. uppercase.
+    //Get the first char of the name; uppercase.
     public static String ToFirstChar(String chinese)
     {
         String pinyinStr = "";
@@ -180,6 +183,7 @@ public class ProvinceWithCitiesDAO
             return pinyinStr;
     }
 
+    //Transfer the full name to pinyin.
     public static String ToPinyin(String chinese)
     {
         String pinyinStr = "";
@@ -203,6 +207,7 @@ public class ProvinceWithCitiesDAO
         return pinyinStr;
     }
 
+    //Transfer number to English
     public String numberEn(String number)
     {
         String returnNumber = null;

@@ -14,10 +14,10 @@ public class NationDAO
     private String input;
     private String sql = null;
     private int confirmedCount = 0; //Confirmed number of the province
-    private int currentConfirmedCount = 0; //Currented existed number(现存确诊)
-    private int curedCount = 0; // Cured number of the province(治愈人数)
-    private int deadCount = 0; //Dead number of the province(死亡人数)
-    private int suspectedCount = 0; //Suspected number the province(疑似病例)
+    private int currentConfirmedCount = 0; //Current existed number
+    private int curedCount = 0; // Cured number of the province
+    private int deadCount = 0; //Dead number of the province
+    private int suspectedCount = 0; //Suspected number the province
     private Nation cn = new Nation();
 
     public NationDAO()

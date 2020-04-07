@@ -110,6 +110,7 @@ public class Controller
         nationalHistory.access();
         return nationalHistory.getNationalHistory();
     }
+
     @RequestMapping("/NationChart")
     public Object getNationChart(@RequestParam(value = "type") String type)
     {

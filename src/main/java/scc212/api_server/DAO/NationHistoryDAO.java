@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import scc212.api_server.Entity.NationHistory;
 import scc212.api_server.Entity.ProHistoryBean;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
