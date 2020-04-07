@@ -2,7 +2,7 @@ package scc212.api_server.Entity;
 
 public class NationHistory
 {
-    private int date;
+    private String date;
     private int confirmedCount;
     private int confirmedIncr;
     private int curedCount;
@@ -12,11 +12,11 @@ public class NationHistory
     private int deadCount;
     private int deadIncr;
 
-    public int getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

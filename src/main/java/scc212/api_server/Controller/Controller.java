@@ -5,6 +5,7 @@ import scc212.api_server.DAO.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.*;
+import scc212.api_server.Entity.NationHistory;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Controller
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -102,7 +103,7 @@ public class Controller
     }
     
     @RequestMapping("/get/NationHistory")
-    public Object getChinaHistory(@RequestParam(value = "date") String date)
+    public List<NationHistory> getChinaHistory(@RequestParam(value = "date" , required = false, defaultValue = "all") String date)
     {
         nationalHistory.reset();
         nationalHistory.setJdbcTemplate(this.jdbcTemplate);

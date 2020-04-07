@@ -1,28 +1,18 @@
 package scc212.api_server.DAO;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import scc212.api_server.Entity.CityBean;
 import scc212.api_server.Entity.NationHistory;
 import scc212.api_server.Entity.ProHistoryBean;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class NationHistoryDAO
 {
     private JdbcTemplate jdbcTemplate;
     private String input = null;
-    private List<ProHistoryBean> provinces = new ArrayList<ProHistoryBean>();
     private String sql = null;
-    private NationHistory nationHistory = new NationHistory();
-    private HistoryInfoDAO history = new HistoryInfoDAO();
-    private int confirmedCount = 0;
-    private int confirmedIncr = 0;
-    private int curedCount = 0;
-    private int curedIncr = 0;
-    private int currentConfirmedCount = 0;
-    private int currentCoonfirmedIncr = 0;
-    private int deadCount = 0;
-    private int deadIncr = 0;
+    private List<NationHistory> nationHistory = new ArrayList<NationHistory>();
 
     public NationHistoryDAO()
     {
@@ -31,60 +21,58 @@ public class NationHistoryDAO
 
     public void access()
     {
-        String id = null;
-        sql = "select ID from protoen";
-        List<String> allPro = jdbcTemplate.queryForList(sql, String.class);
-        history.setJdbc(this.jdbcTemplate);
-        for(int i = 0; i < allPro.size(); i++)
-        {
-            id = allPro.get(i);
-            history.reset();
-            history.setParaDate(input);
-            history.setParaPro(id);
-            history.access();
-            provinces = history.getProvinces();
-            running(history.getProvinces());
-        }
-        nationHistory.setConfirmedCount(this.confirmedCount);
-        nationHistory.setConfirmedIncr(this.confirmedIncr);
-        nationHistory.setCurrentConfirmedCount(this.currentConfirmedCount);
-        nationHistory.setCurrentCoonfirmedIncr(this.currentCoonfirmedIncr);
-        nationHistory.setCuredCount(this.curedCount);
-        nationHistory.setCuredIncr(this.curedIncr);
-        nationHistory.setDeadCount(this.deadCount);
-        nationHistory.setDeadIncr(this.deadIncr);
-        nationHistory.setDate(Integer.parseInt(this.input));
+        if(input.equals("all") == false)
+            sql = "SELECT * FROM history_sum WHERE date_id = '" + this.input + "'";
+        else if(input.equals("all"))
+            sql = "SELECT * FROM history_sum";
+        List<Map<String, Object>> info = jdbcTemplate.queryForList(sql);
+        this.readInfo(info);
     }
 
-    public void running(List<ProHistoryBean> provinces)
+    public void readInfo(List<Map<String, Object>> list)
     {
-        if(provinces.size() != 0)
+        NationHistory oneDay;
+        for (Map<String, Object> map : list)
         {
-            confirmedCount = confirmedCount + Integer.parseInt(provinces.get(0).getConfirmedCount());
-            confirmedIncr = confirmedIncr + Integer.parseInt(provinces.get(0).getConfirmedIncr());
-            curedCount = curedCount + Integer.parseInt(provinces.get(0).getCuredCount());
-            curedIncr = curedIncr + Integer.parseInt(provinces.get(0).getCuredIncr());
-            currentConfirmedCount = currentConfirmedCount + Integer.parseInt(provinces.get(0).getCurrentConfirmedCount());
-            currentCoonfirmedIncr = currentCoonfirmedIncr + Integer.parseInt(provinces.get(0).getCurrentCoonfirmedIncr());
-            deadCount = deadCount + Integer.parseInt(provinces.get(0).getDeadCount());
-            deadIncr = deadIncr + Integer.parseInt(provinces.get(0).getDeadIncr());
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                oneDay = new NationHistory();
+                while(iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    String key = entry.getKey().toString();
+                    if(key.toString().equals("confirmed_count"))
+                        oneDay.setConfirmedCount(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("confirmed_incr"))
+                        oneDay.setConfirmedIncr(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("cured_count"))
+                        oneDay.setCuredCount(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("cured_incr"))
+                        oneDay.setCuredIncr(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("current_confirmed_count"))
+                        oneDay.setCurrentConfirmedCount(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("current_confirmed_incr"))
+                        oneDay.setCurrentCoonfirmedIncr(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("dead_count"))
+                        oneDay.setDeadCount(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("dead_incr"))
+                        oneDay.setDeadIncr(Integer.parseInt(value.toString()));
+                    else if(key.toString().equals("date_id"))
+                        oneDay.setDate(value.toString());
+                }
+                this.nationHistory.add(oneDay);
+            }
         }
     }
 
     public void reset()
     {
-        provinces = new ArrayList<ProHistoryBean>();
         input = null;
         sql = null;
-        nationHistory = new NationHistory();
-        confirmedCount = 0;
-        confirmedIncr = 0;
-        curedCount = 0;
-        curedIncr = 0;
-        currentConfirmedCount = 0;
-        currentCoonfirmedIncr = 0;
-        deadCount = 0;
-        deadIncr = 0;
+        nationHistory = new ArrayList<>();
     }
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
@@ -97,7 +85,7 @@ public class NationHistoryDAO
         this.input = input;
     }
 
-    public NationHistory getNationalHistory()
+    public List<NationHistory> getNationalHistory()
     {
         return this.nationHistory;
     }

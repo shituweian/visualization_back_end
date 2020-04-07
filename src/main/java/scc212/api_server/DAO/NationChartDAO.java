@@ -32,7 +32,7 @@ public class NationChartDAO
     public NationChartDAO()
     {
         try {
-            date = dateFormat.parse("20200120");
+            date = dateFormat.parse("20200119");
             Date thisday = new Date();
             String today = dateFormat.format(thisday);
             String oneday = dateFormat.format(date);
@@ -112,22 +112,45 @@ public class NationChartDAO
                 "y4 is total cured count; y5 is total dead count.");
         //Initialize the date
         nationHistory.setJdbcTemplate(this.jdbcTemplate);
-        for(int i = 0; i < dates.size(); i++)
+        nationHistory.reset();
+        nationHistory.setInput("all");
+        nationHistory.access();
+        Date myDate;
+        String oneDay = null;
+        boolean isSet = false;
+        try {
+            date = dateFormat.parse("20200119");
+            oneDay = dateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        cld = Calendar.getInstance();
+        for(int i = 0; i < nationHistory.getNationalHistory().size(); i++)
         {
-            returnChart.addEchartX1(dates.get(i));
-            nationHistory.reset();
-            nationHistory.setInput(dates.get(i));
-            nationHistory.access();
-            //Total confirmed count
-            returnChart.addEchartY1(nationHistory.getNationalHistory().getConfirmedCount());
-            //Confirmed increase
-            returnChart.addEchartY2(nationHistory.getNationalHistory().getConfirmedIncr());
-            //Current confirmed
-            returnChart.addEchartY3(nationHistory.getNationalHistory().getCurrentConfirmedCount());
-            //Total cured count
-            returnChart.addEchartY4(nationHistory.getNationalHistory().getCuredCount());
-            //Total dead count
-            returnChart.addEchartY5(nationHistory.getNationalHistory().getDeadCount());
+            if(nationHistory.getNationalHistory().get(i).getDate().equals(oneDay))
+            {
+                returnChart.addEchartX1(nationHistory.getNationalHistory().get(i).getDate());
+
+                returnChart.addEchartY1(nationHistory.getNationalHistory().get(i).getConfirmedCount());
+                returnChart.addEchartY2(nationHistory.getNationalHistory().get(i).getConfirmedIncr());
+                returnChart.addEchartY3(nationHistory.getNationalHistory().get(i).getCurrentConfirmedCount());
+                returnChart.addEchartY4(nationHistory.getNationalHistory().get(i).getCuredCount());
+                returnChart.addEchartY5(nationHistory.getNationalHistory().get(i).getDeadCount());
+            }
+            else
+            {
+                returnChart.addEchartX1(oneDay);
+                returnChart.addEchartY1(nationHistory.getNationalHistory().get(i - 1).getConfirmedCount());
+                returnChart.addEchartY2(0);
+                returnChart.addEchartY3(nationHistory.getNationalHistory().get(i - 1).getCurrentConfirmedCount());
+                returnChart.addEchartY4(nationHistory.getNationalHistory().get(i - 1).getCuredCount());
+                returnChart.addEchartY5(nationHistory.getNationalHistory().get(i - 1).getDeadCount());
+                i--;
+            }
+            cld.setTime(date);
+            cld.add(Calendar.DATE, 1);
+            date = cld.getTime();
+            oneDay = dateFormat.format(date);
         }
     }
 
