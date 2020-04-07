@@ -49,13 +49,16 @@ public class Controller
     }
 
     @RequestMapping("/get/WorldHistory")
-    public List getWorldHistory(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
+    public ArrayList<WorldHistory> getWorldHistory(@RequestParam(value = "country" , required = true) String name,
+                                                   @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate) {
         worldHistory.reset();
         worldHistory.setInput(name);
+        worldHistory.setDate(inputDate);
         worldHistory.setJdbc(this.jdbcTemplate);
         worldHistory.access();
         return worldHistory.getCountry();
     }
+    
 
     /*
     For the APIs of China
