@@ -13,6 +13,7 @@ import java.util.List;
 /*
 This class aims to return the Apis for drawing the charts in javascript.
  */
+
 public class NationChartDAO
 {
     //Jdbc
@@ -31,25 +32,7 @@ public class NationChartDAO
 
     public NationChartDAO()
     {
-        try {
-            date = dateFormat.parse("20200119");
-            Date thisday = new Date();
-            String today = dateFormat.format(thisday);
-            String oneday = dateFormat.format(date);
-            while(Integer.parseInt(oneday) < Integer.parseInt(today))
-            {
-                cld = Calendar.getInstance();
-                cld.setTime(date);
-                cld.add(Calendar.DATE, 1);
-                date = cld.getTime();
-                oneday = dateFormat.format(date);
-                if(Integer.parseInt(oneday) > Integer.parseInt(today))
-                    break;
-                dates.add(oneday);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void access()

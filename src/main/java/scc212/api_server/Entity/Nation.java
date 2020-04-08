@@ -5,10 +5,11 @@ public class Nation
     private String nameCN; //Chinese name
     private String nameEn; //English name
     private String confirmedCount; //Confirmed number of the province
-    private String currentConfirmedCount; //Currented existed number(现存确诊)
-    private String curedCount; // Cured number of the province(治愈人数)
-    private String deadCount; //Dead number of the province(死亡人数)
-    private String suspectedCount; //Suspected number the province(疑似病例)
+    private String currentConfirmedCount; //Current existed number
+    private String curedCount; // Cured number of the province
+    private String deadCount; //Dead number
+    private String suspectedCount; //Suspected number
+    private String overseaInput;
     private String locationId; //The location ID of the province
 
     public String getNameCN() {
@@ -65,6 +66,16 @@ public class Nation
 
     public void setSuspectedCount(String suspectedCount) {
         this.suspectedCount = suspectedCount;
+    }
+
+    public String getOverseaInput()
+    {
+        return overseaInput;
+    }
+
+    public void setOverseaInput(String overseaInput)
+    {
+        this.overseaInput = overseaInput;
     }
 
     public String getLocationId() {

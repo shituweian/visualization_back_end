@@ -52,6 +52,11 @@ public class NationDAO
                 }
             }
         }
+        sql = "SELECT confirmed_count FROM city WHERE city_name like '境外%'";
+        List<Integer> info = this.jdbcTemplate.queryForList(sql, Integer.class);
+        int count = 0;
+        for(int i = 0; i < info.size(); i++)
+            count = count + info.get(i);
         cn.setNameCN("中国");
         cn.setNameEn("China");
         cn.setLocationId("100000");
@@ -60,6 +65,7 @@ public class NationDAO
         cn.setSuspectedCount(String.valueOf(suspectedCount));
         cn.setCuredCount(String.valueOf(curedCount));
         cn.setDeadCount(String.valueOf(deadCount));
+        cn.setOverseaInput(String.valueOf(count));
     }
 
     public Object getNation()
