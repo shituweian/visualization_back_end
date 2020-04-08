@@ -18,7 +18,7 @@ public class Controller
     private CountryDAO country = new CountryDAO();
     private WorldHistoryDAO worldHistory = new WorldHistoryDAO();
     //Tian Yu Added
-    private HistoryInfoDAO proHisData = new HistoryInfoDAO();
+    private ProHistoryDAO proHisData = new ProHistoryDAO();
     private CurrentProDAO currentPro = new CurrentProDAO();
     private NationDAO nation = new NationDAO();
     private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();

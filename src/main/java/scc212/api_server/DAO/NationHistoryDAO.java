@@ -1,9 +1,7 @@
 package scc212.api_server.DAO;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import scc212.api_server.Entity.CityBean;
 import scc212.api_server.Entity.NationHistory;
-import scc212.api_server.Entity.ProHistoryBean;
 
 import java.util.*;
 

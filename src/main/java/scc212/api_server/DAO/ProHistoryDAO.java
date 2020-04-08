@@ -6,7 +6,7 @@ import scc212.api_server.Entity.ProHistoryBean;
 
 import java.util.*;
 
-public class HistoryInfoDAO
+public class ProHistoryDAO
 {
     private JdbcTemplate jdbcTemplate;
     private String paraPro;
@@ -20,7 +20,7 @@ public class HistoryInfoDAO
     private List<ProHistoryBean> provinces = new ArrayList<ProHistoryBean>();
     private ProHistory return_list = new ProHistory();
 
-    public HistoryInfoDAO()
+    public ProHistoryDAO()
     {
 
     }

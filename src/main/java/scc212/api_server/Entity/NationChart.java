@@ -139,3 +139,4 @@ public class NationChart
         this.echartY5 = echartY5;
     }
 }
+
