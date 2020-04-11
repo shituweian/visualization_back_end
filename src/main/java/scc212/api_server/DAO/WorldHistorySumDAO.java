@@ -38,7 +38,7 @@ public class WorldHistorySumDAO {
     }
 
     public void access() {
-        if (input.equals("all") == false) {
+        if (inputDate.equals("all") == false) {
             if (input.equals("world") == false) {
                 sql = "select english_name from continent_english where chinese_name = '" + input + "' or english_name = '" + input + "'";
                 String englishName = jdbcTemplate.queryForObject(sql, String.class);
@@ -60,6 +60,7 @@ public class WorldHistorySumDAO {
 
                 sql = "select chinese_name from continent_english  where chinese_name = '" + input + "' or english_name = '" + input + "'";
                 String chineseName = jdbcTemplate.queryForObject(sql, String.class);
+
                 sql = "SELECT * FROM foreign_continent_sum WHERE continent_name = '" + chineseName + "'";
                 queryData(sql);
             }
@@ -115,7 +116,6 @@ public class WorldHistorySumDAO {
 
         }
     }
-
     public List getData() {
         return data;
     }
