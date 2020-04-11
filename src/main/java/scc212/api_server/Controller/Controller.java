@@ -5,6 +5,7 @@ import scc212.api_server.DAO.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.*;
+import scc212.api_server.Entity.Medical_CommentsBean;
 import scc212.api_server.Entity.NationHistory;
 
 import java.text.SimpleDateFormat;
@@ -24,13 +25,14 @@ public class Controller
     private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
     private NationHistoryDAO nationalHistory = new NationHistoryDAO();
     private NationChartDAO nationChart = new NationChartDAO();
+    private MedicalCommentsDAO comments = new MedicalCommentsDAO();
 
 
     public Controller()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -123,5 +125,13 @@ public class Controller
         nationChart.setJdbc(this.jdbcTemplate);
         nationChart.access();
         return nationChart.getReturnChart();
+    }
+
+    @RequestMapping("/MedicalComments")
+    public List getComments()
+    {
+        comments.reset();
+        comments.access();
+        return comments.getReturn_list();
     }
 }
