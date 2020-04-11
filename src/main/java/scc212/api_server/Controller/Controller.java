@@ -96,7 +96,7 @@ public class Controller
     }
 
     @RequestMapping("/get/CurrentCities")
-    public Object getProWithCities(@RequestParam(value = "proName") String name)
+    public Object getProWithCities(@RequestParam(value = "proName", required = false, defaultValue = "all") String name)
     {
         cities.reset();
         cities.setJdbc(this.jdbcTemplate);

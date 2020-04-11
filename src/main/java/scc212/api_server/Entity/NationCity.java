@@ -40,6 +40,7 @@ public class NationCity
         this.proID = proID;
     }
 
+
     public List<CityBean> getCities()
     {
         return cities;

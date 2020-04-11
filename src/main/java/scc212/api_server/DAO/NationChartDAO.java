@@ -54,7 +54,8 @@ public class NationChartDAO
 
     public void overSeaInput()
     {
-        sql = "select map_province_name, confirmed_count, pinyin from city,protoen where city.city_name like '境外%' and protoen.Name=city.map_province_name order by city.confirmed_count DESC ";
+        sql = "SELECT map_province_name, confirmed_count, pinyin FROM city,protoen WHERE city.city_name LIKE '境外%' " +
+                "AND protoen.Name=city.map_province_name ORDER BY city.confirmed_count DESC ";
         List info = this.jdbcTemplate.queryForList(sql);
         returnChart.setChartName("Oversea Input Top10");
         returnChart.setComment("Oversea Input Top10 of China");
@@ -75,10 +76,10 @@ public class NationChartDAO
         returnChart.setChartName("Province Compaction Chart-Details");
         returnChart.setComment("x1 is provinces without cases; x2 is provinces have cases; " +
                 "y1 is number of province that have and have not cases.");
-        sql = "SELECT protoen.pinyin FROM province, protoen WHERE current_confirmed_count=0 and " +
+        sql = "SELECT protoen.pinyin FROM province, protoen WHERE current_confirmed_count=0 AND " +
                 "province.location_id=protoen.ID";
         List info1 = this.jdbcTemplate.queryForList(sql, String.class);
-        sql = "SELECT protoen.pinyin FROM province, protoen WHERE current_confirmed_count!=0 and " +
+        sql = "SELECT protoen.pinyin FROM province, protoen WHERE current_confirmed_count!=0 AND " +
                 "province.location_id=protoen.ID";
         List info2 = this.jdbcTemplate.queryForList(sql, String.class);
         int withoutCase = info1.size();
@@ -181,7 +182,6 @@ public class NationChartDAO
                     Integer.parseInt(hubei.getProvinces().get(i).getDeadCount()));
         }
     }
-
 
     public NationChart getReturnChart()
     {

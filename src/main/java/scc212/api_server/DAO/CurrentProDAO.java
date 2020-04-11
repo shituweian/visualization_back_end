@@ -29,7 +29,7 @@ public class CurrentProDAO
             sql = "select *from province where province_short_name = '" + shortName + "'";
         }
         else if (input.equals("all") == true)
-            sql = "select *from province";
+            sql = "SELECT * FROM province";
         List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : list)
         {
