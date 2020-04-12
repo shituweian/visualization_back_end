@@ -5,13 +5,17 @@ public class WorldHistory {
     private String area_name_en;
     private int confirmed_count;
     private int confirmed_incr;
+    private float confirmed_rate;
     private int cured_count;
     private int cured_incr;
+    private float cured_rate;
     private int current_confirmed_count;
     private int current_confirmed_incr;
+    private float current_confirmed_rate;
     private int date_id;
     private int dead_count;
     private int dead_incr;
+    private float dead_rate;
     private int location_id;
     private String time;
 
@@ -43,6 +47,13 @@ public class WorldHistory {
         return confirmed_incr;
     }
 
+    public void setConfirmed_rate(float confirmed_rate) {
+        this.confirmed_rate = confirmed_rate;
+    }
+    public float getConfirmed_rate() {
+        return confirmed_rate;
+    }
+
     public void setCured_count(int cured_count) {
         this.cured_count = cured_count;
     }
@@ -57,6 +68,13 @@ public class WorldHistory {
         return cured_incr;
     }
 
+    public void setCured_rate(float cured_rate) {
+        this.cured_rate = cured_rate;
+    }
+    public float getCured_rate() {
+        return cured_rate;
+    }
+
     public void setCurrent_confirmed_count(int current_confirmed_count) {
         this.current_confirmed_count = current_confirmed_count;
     }
@@ -69,6 +87,13 @@ public class WorldHistory {
     }
     public int getCurrent_confirmed_incr() {
         return current_confirmed_incr;
+    }
+
+    public void setCurrent_confirmed_rate(float current_confirmed_rate) {
+        this.current_confirmed_rate = current_confirmed_rate;
+    }
+    public float getCurrent_confirmed_rate() {
+        return current_confirmed_rate;
     }
 
     public void setDate_id(int date_id) {
@@ -90,6 +115,13 @@ public class WorldHistory {
     }
     public int getDead_incr() {
         return dead_incr;
+    }
+
+    public void setDead_rate(float dead_rate) {
+        this.dead_rate = dead_rate;
+    }
+    public float getDead_rate() {
+        return dead_rate;
     }
 
     public void setLocation_id(int location_id) {

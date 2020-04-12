@@ -2,6 +2,7 @@ package scc212.api_server.DAO;
 
 import scc212.api_server.Entity.WorldHistory;
 import org.springframework.jdbc.core.JdbcTemplate;
+//import scc212.api_server.Entity.WorldHistoryRate;
 
 import java.util.*;
 
@@ -106,7 +107,45 @@ public class WorldHistoryDAO {
         }
     }
 
+    public void computRate(ArrayList<WorldHistory> lists) {
+        Iterator<WorldHistory> iterator = lists.iterator();
+        while (iterator.hasNext()) {
+            WorldHistory temp = iterator.next();
+
+            if (temp.getConfirmed_count() == 0){
+                temp.setConfirmed_rate(0);
+            }
+            else {
+                temp.setConfirmed_rate((float)temp.getConfirmed_incr()/(float)temp.getConfirmed_count());
+            }
+
+            if (temp.getCured_count() == 0){
+                temp.setCured_rate(0);
+            }
+            else {
+                temp.setCured_rate((float)temp.getCured_incr()/(float)temp.getCured_count());
+            }
+
+            if (temp.getCurrent_confirmed_count() == 0){
+                temp.setCurrent_confirmed_rate(0);
+            }
+            else {
+                temp.setCurrent_confirmed_rate((float)temp.getCurrent_confirmed_incr()/(float)temp.getCurrent_confirmed_count());
+
+            }
+
+            if (temp.getDead_count() == 0){
+                temp.setDead_rate(0);
+            }
+            else {
+                temp.setDead_rate((float)temp.getDead_incr()/(float)temp.getDead_count());
+            }
+
+        }
+    }
+
     public List getCountry() {
+        computRate(country);
         return country;
     }
 
