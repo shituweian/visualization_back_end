@@ -26,7 +26,7 @@ public class WorldHistory {
         return area_name;
     }
 
-    public void setArea_name_en(String country_name_en) {
+    public void setArea_name_en(String area_name_en) {
         this.area_name_en = area_name_en;
     };
     public String getArea_name_en() {

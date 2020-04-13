@@ -10,6 +10,8 @@ public class WorldHistoryDAO {
     private JdbcTemplate jdbcTemplate;
     private String input;
     private String inputDate;
+    private String startDate;
+    private String endDate;
     private String sql = null;
     private WorldHistory queriedCountry;// = new WorldHistory();
     private ArrayList<WorldHistory> allCountry;// = new ArrayList<>();
@@ -32,6 +34,12 @@ public class WorldHistoryDAO {
     public void setDate(String inputDate) {
         this.inputDate = inputDate;
     }
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
     public void setJdbc(JdbcTemplate jdbcTemplate)
     {
@@ -39,21 +47,45 @@ public class WorldHistoryDAO {
     }
 
     public void access() {
-        sql = "select english_name from country_english where short_name = '" + input
-                + "' or chinese_name = '" + input + "' or english_name = '" + input + "'";
-        String englishName = jdbcTemplate.queryForObject(sql, String.class);
+        if (input.equals("all") == false) {
+            sql = "select english_name from country_english where short_name = '" + input
+                    + "' or chinese_name = '" + input + "' or english_name = '" + input + "'";
+            String englishName = jdbcTemplate.queryForObject(sql, String.class);
 
-        sql = "select chinese_name from country_english  where short_name = '" + input
-                + "' or chinese_name = '" + input + "' or english_name = '" + input + "'";
-        String chineseName = jdbcTemplate.queryForObject(sql, String.class);
+            sql = "select chinese_name from country_english  where short_name = '" + input
+                    + "' or chinese_name = '" + input + "' or english_name = '" + input + "'";
+            String chineseName = jdbcTemplate.queryForObject(sql, String.class);
 
-        if (inputDate.equals("all") == false) {
-            sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName + "' AND date_id='" + inputDate + "'";
-            queryData(sql);
+            if (inputDate.equals("all") == false) {
+                    sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName +
+                            "' AND date_id='" + inputDate + "'";
+                    queryData(sql);
+            }
+            else if (inputDate.equals("all") == true) {
+                if (startDate.equals("none") == false) {
+                    sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName +
+                            "' AND (date_id BETWEEN " + startDate + " AND " + endDate+")";
+                }
+                else {
+                    sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName +  "'";
+                }
+                queryData(sql);
+            }
         }
-        else if (inputDate.equals("all") == true) {
-            sql = "SELECT * FROM foreign_history WHERE area_name = '" + chineseName +  "'";
-            queryData(sql);
+        else if (input.equals("all") == true) {
+            if (inputDate.equals("all") == false) {
+                sql = "SELECT * FROM foreign_history WHERE date_id='" + inputDate + "'";
+                queryData(sql);
+            }
+            else if (inputDate.equals("all") == true) {
+                if (startDate.equals("none") == false) {
+                    sql = "SELECT * FROM foreign_history WHERE date_id BETWEEN " + startDate + " AND " + endDate;
+                }
+                else {
+                    sql = "SELECT * FROM foreign_history";
+                }
+                queryData(sql);
+            }
         }
     }
 
@@ -93,16 +125,16 @@ public class WorldHistoryDAO {
                     else if (key.toString().equals("time"))
                         temp.setTime(value.toString());
                 }
-                country.add(temp);
+
 
             }
-                /*
-                String mysql = "select english_name from country_english where chinese_name = '"
-                        + temp.getArea_name() + "'";
-                String en = jdbcTemplate.queryForObject(mysql, String.class);
-                temp.setArea_name_en(en);
 
-                 */
+            String mysql = "select english_name from country_english where chinese_name = '"
+                    + temp.getArea_name() + "'";
+            String en = jdbcTemplate.queryForObject(mysql, String.class);
+            temp.setArea_name_en(en);
+            country.add(temp);
+
 
         }
     }

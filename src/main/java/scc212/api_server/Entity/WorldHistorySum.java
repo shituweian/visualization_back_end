@@ -1,7 +1,8 @@
 package scc212.api_server.Entity;
 
 public class WorldHistorySum {
-    private String name = "World";
+    private String name = "全球";
+    private String name_en = "World";
     private int confirmed_count;
     private int confirmed_incr;
     private int cured_count;
@@ -17,6 +18,13 @@ public class WorldHistorySum {
     };
     public String getName() {
         return name;
+    }
+
+    public void setName_en(String name_en) {
+        this.name_en = name_en;
+    };
+    public String getName_en() {
+        return name_en;
     }
 
     public void setConfirmed_count(int confirmed_count) {

@@ -33,7 +33,8 @@ public class Controller
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        //dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -52,21 +53,29 @@ public class Controller
     }
 
     @RequestMapping("/get/WorldHistory")
-    public List getWorldHistory(@RequestParam(value = "country" , required = true) String name,
-                                @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate) {
+    public List getWorldHistory(@RequestParam(value = "country" , required = false, defaultValue = "all") String name,
+                                @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
+                                @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
+                                @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
         worldHistory.reset();
         worldHistory.setInput(name);
         worldHistory.setDate(inputDate);
+        worldHistory.setStartDate(startDate);
+        worldHistory.setEndDate(endDate);
         worldHistory.setJdbc(this.jdbcTemplate);
         worldHistory.access();
         return worldHistory.getCountry();
     }
     @RequestMapping("/get/WorldHistorySum")
-    public List getWorldHistorySum(@RequestParam(value = "name" , required = true) String name,
-                                   @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate) {
+    public List getWorldHistorySum(@RequestParam(value = "name" , required = false, defaultValue = "all") String name,
+                                   @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
+                                   @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
+                                   @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
         worldHistorySum.reset();
         worldHistorySum.setInput(name);
         worldHistorySum.setDate(inputDate);
+        worldHistorySum.setStartDate(startDate);
+        worldHistorySum.setEndDate(endDate);
         worldHistorySum.setJdbc(this.jdbcTemplate);
         worldHistorySum.access();
         return worldHistorySum.getData();
