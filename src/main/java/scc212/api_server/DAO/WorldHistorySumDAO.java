@@ -92,14 +92,20 @@ public class WorldHistorySumDAO {
             }
             else {
                 if (input.equals("world") == false) {
-                    sql = "select english_name from continent_english where chinese_name = '" + input + "' or english_name = '" + input + "'";
-                    String englishName = jdbcTemplate.queryForObject(sql, String.class);
+                    if (input.equals("all") == false) {
+                        sql = "select english_name from continent_english where chinese_name = '" + input + "' or english_name = '" + input + "'";
+                        String englishName = jdbcTemplate.queryForObject(sql, String.class);
 
-                    sql = "select chinese_name from continent_english  where chinese_name = '" + input + "' or english_name = '" + input + "'";
-                    String chineseName = jdbcTemplate.queryForObject(sql, String.class);
+                        sql = "select chinese_name from continent_english  where chinese_name = '" + input + "' or english_name = '" + input + "'";
+                        String chineseName = jdbcTemplate.queryForObject(sql, String.class);
 
-                    sql = "SELECT * FROM foreign_continent_sum WHERE continent_name = '" + chineseName + "'";
+                        sql = "SELECT * FROM foreign_continent_sum WHERE continent_name = '" + chineseName + "'";
+                    }
+                    else {
+                        sql = "SELECT * FROM foreign_continent_sum";
+                    }
                     queryData(sql);
+
                 }
                 else if (input.equals("world") == true) {
                     sql = "SELECT * FROM world_sum";
