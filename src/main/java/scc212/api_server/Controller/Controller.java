@@ -19,6 +19,7 @@ public class Controller
     private CountryDAO country = new CountryDAO();
     private WorldHistoryDAO worldHistory = new WorldHistoryDAO();
     private WorldHistorySumDAO worldHistorySum = new WorldHistorySumDAO();
+    private KnowledgeDAO knowledge = new KnowledgeDAO();
     //Tian Yu Added
     private ProHistoryDAO proHisData = new ProHistoryDAO();
     private CurrentProDAO currentPro = new CurrentProDAO();
@@ -148,10 +149,18 @@ public class Controller
     }
 
     @RequestMapping("/MedicalComments")
-    public List getComments()
+    public List getMedicalComments()
     {
         comments.reset();
         comments.access();
         return comments.getReturn_list();
+    }
+
+    @RequestMapping("/Knowledge")
+    public List getKnowledge()
+    {
+        knowledge.reset();
+        knowledge.access();
+        return knowledge.getReturn_list();
     }
 }

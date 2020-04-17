@@ -1,17 +1,18 @@
 package scc212.api_server.DAO;
 
+import scc212.api_server.Entity.Knowledge;
 import scc212.api_server.Entity.Medical_CommentsBean;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicalCommentsDAO
+public class KnowledgeDAO
 {
-    private Medical_CommentsBean comments = new Medical_CommentsBean();
-    private List<Medical_CommentsBean> return_list = new ArrayList<Medical_CommentsBean>();
+    private Knowledge contents = new Knowledge();
+    private List<Knowledge> return_list = new ArrayList<Knowledge>();
 
-    public MedicalCommentsDAO()
+    public KnowledgeDAO()
     {
 
     }
@@ -19,7 +20,7 @@ public class MedicalCommentsDAO
     public void access()
     {
         String Path = System.getProperty("user.dir");
-        File ctoFile = new File(Path + "/TextResources/MedicalComments.txt");
+        File ctoFile = new File(Path + "/TextResources/Knowledge.txt");
         InputStreamReader reading = null;
         String title[] = new String[2];
         String content[] = new String[2];
@@ -38,20 +39,20 @@ public class MedicalCommentsDAO
                 if(txtline.substring(1, 2).equals("."))
                 {
                     if(count != 0)
-                        return_list.add(comments);
+                        return_list.add(contents);
                     count++;
-                    comments = new Medical_CommentsBean();
-                    comments.setTitle(txtline);
+                    contents = new Knowledge();
+                    contents.setTitle(txtline);
                 }
                 if(!txtline.substring(1, 2).equals("."))
                 {
-                    if(comments.getContents() == null)
-                        comments.setContents(txtline);
+                    if(contents.getContents() == null)
+                        contents.setContents(txtline);
                     else
-                        comments.setContents(comments.getContents() + txtline);
+                        contents.setContents(contents.getContents() + txtline);
                 }
             }
-            return_list.add(comments);
+            return_list.add(contents);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -61,11 +62,11 @@ public class MedicalCommentsDAO
 
     public void reset()
     {
-        comments = new Medical_CommentsBean();
-        return_list = new ArrayList<Medical_CommentsBean>();
+        contents = new Knowledge();
+        return_list = new ArrayList<Knowledge>();
     }
 
-    public List<Medical_CommentsBean> getReturn_list()
+    public List<Knowledge> getReturn_list()
     {
         return this.return_list;
     }
