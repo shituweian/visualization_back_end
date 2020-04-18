@@ -28,13 +28,13 @@ public class Controller
     private NationHistoryDAO nationalHistory = new NationHistoryDAO();
     private NationChartDAO nationChart = new NationChartDAO();
     private MedicalCommentsDAO comments = new MedicalCommentsDAO();
+    private CurrentNewsDAO newsDAO = new CurrentNewsDAO();
 
 
     public Controller()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        //dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
@@ -42,7 +42,7 @@ public class Controller
     }
 
     /*
-    For the APIs of the World.
+    APIs of the World.
      */
     @RequestMapping("/get/Country")
     public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
@@ -84,7 +84,7 @@ public class Controller
     
 
     /*
-    For the APIs of China
+    APIs of China
      */
 
     @RequestMapping("/get/CurrentProInfo")
@@ -148,6 +148,10 @@ public class Controller
         return nationChart.getReturnChart();
     }
 
+    /*
+    APIs for some news and comments.
+     */
+
     @RequestMapping("/MedicalComments")
     public List getMedicalComments()
     {
@@ -155,6 +159,15 @@ public class Controller
         comments.access();
         return comments.getReturn_list();
     }
+
+    @RequestMapping("/CurrentNews")
+    public List getCurrentNews()
+    {
+        newsDAO.reset();
+        newsDAO.access();
+        return newsDAO.getCurNewsList();
+    }
+
 
     @RequestMapping("/Knowledge")
     public List getKnowledge()

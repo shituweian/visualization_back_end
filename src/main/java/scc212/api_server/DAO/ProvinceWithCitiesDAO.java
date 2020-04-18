@@ -46,7 +46,7 @@ public class ProvinceWithCitiesDAO
             proWithCity.setProID(proID);
             proWithCity.setProNameCN(Name);
             proWithCity.setProNameEN(pinyin);
-            sql = "select * from city where map_province_name = '" + Name + "'";
+            sql = "SELECT * FROM city WHERE map_province_name = '" + Name + "'";
             list =  this.jdbcTemplate.queryForList(sql);
             readInfo(list);
             sortList(city);
@@ -127,6 +127,10 @@ public class ProvinceWithCitiesDAO
             return "People from other provinces";
         else if(chinese.equals("鄂尔多斯"))
             return "Erdos";
+        else if(chinese.equals("香港"))
+            return "Hong Kong";
+        else if(chinese.equals("澳门"))
+            return "Macaw";
         else if(chinese.substring(0, 2).equals("兵团"))
         {
             String endStr = null;
@@ -189,8 +193,6 @@ public class ProvinceWithCitiesDAO
             {
                 if (newChar[i] > 128)
                 {
-                    if(chinese.equals("省级（湖北输入）"))
-                        System.out.println(newChar[i]);
                     try {
                         pinyinStr += PinyinHelper.toHanyuPinyinStringArray(newChar[i], defaultFormat)[0].charAt(0);
                         if(pinyinStr == null)

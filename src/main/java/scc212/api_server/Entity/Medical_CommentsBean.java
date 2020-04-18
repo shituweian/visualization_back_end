@@ -3,7 +3,7 @@ package scc212.api_server.Entity;
 public class Medical_CommentsBean
 {
     private String title;
-    private String contents;
+    private String contents[] = new String[10];
 
     public String getTitle()
     {
@@ -15,14 +15,13 @@ public class Medical_CommentsBean
         this.title = title;
     }
 
-    public String getContents()
+    public String[] getContents()
     {
         return contents;
     }
 
-    public void setContents(String contents)
+    public void setContents(String contents, int i)
     {
-        this.contents = contents;
+        this.contents[i] = contents;
     }
-
 }
