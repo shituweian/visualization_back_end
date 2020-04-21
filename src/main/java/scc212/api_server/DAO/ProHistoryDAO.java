@@ -40,6 +40,7 @@ public class ProHistoryDAO
         return_list.setEnName(enName);
         return_list.setProId(proNumber);
         return_list.setCnName(cnName);
+        System.out.println(paraDate);
         if(this.paraDate.equals("all") == false)
             mysql = "select *  from history" +" where date_id = '" + paraDate + "' and location_id = '" + proNumber + "'";
         else if(this.paraDate.equals("all") == true)
@@ -99,6 +100,7 @@ public class ProHistoryDAO
 
     public void reset()
     {
+        //System.out.println("Reset.");
         provinces = new ArrayList<ProHistoryBean>();
         this.paraDate = null;
         this.paraPro = null;

@@ -3,13 +3,12 @@ package scc212.api_server.DAO;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.google.gson.*;
 import scc212.api_server.Entity.CurrentNewsBean;
+import scc212.api_server.Tools.TransApi;
 
 /*
 This class is the data access object for the current news of COVID-19.
@@ -27,6 +26,7 @@ public class CurrentNewsDAO
     private JsonObject jsonElements;
     private JsonParser jsonParser;
     private JsonElement newslist;
+
     private ArrayList<CurrentNewsBean> curNewsList = new ArrayList<CurrentNewsBean>();
 
     public  CurrentNewsDAO()
@@ -38,6 +38,7 @@ public class CurrentNewsDAO
         this.jsonParser = new JsonParser();
         this.newslist = null;
     }
+
 
     public void access()
     {
@@ -68,7 +69,6 @@ public class CurrentNewsDAO
 
     public void processData(String json)
     {
-        json = readFromLocal();
         jsonElements = jsonParser.parse(json).getAsJsonObject();
         JsonElement code = jsonElements.get("code");
         if(!code.toString().equals("200"))
@@ -87,10 +87,29 @@ public class CurrentNewsDAO
                 Long get = Long.parseLong(onePiece.get("pubDate").toString());
                 Date pubTime = new Date(get);
                 one.setPubDate(pubTime.toString());
-                one.setTitle(onePiece.get("title").toString().substring(1, onePiece.get("title").toString().length() - 1));
+
+                TransApi title = new TransApi(onePiece.get("title").toString().substring(1, onePiece.get("title").toString().length() - 1));
+                String enTitle = title.request();
+                if(!enTitle.equals("error"))
+                    one.setTitle(enTitle);
+                else
+                    one.setTitle(onePiece.get("title").toString().substring(1, onePiece.get("title").toString().length() - 1));
+
                 one.setPubDateStr(onePiece.get("pubDateStr").toString().substring(1, onePiece.get("pubDateStr").toString().length() - 1));
-                one.setSummary(onePiece.get("summary").toString().substring(1, onePiece.get("summary").toString().length() - 1));
-                one.setInfoSourse(onePiece.get("infoSource").toString().substring(1, onePiece.get("infoSource").toString().length() - 1));
+
+                TransApi summary = new TransApi(onePiece.get("summary").toString().substring(1, onePiece.get("summary").toString().length() - 1));
+                String enSummary = summary.request();
+                if(!enSummary.equals("error"))
+                    one.setSummary(enSummary);
+                else
+                    one.setSummary(onePiece.get("summary").toString().substring(1, onePiece.get("summary").toString().length() - 1));
+
+                TransApi src = new TransApi(onePiece.get("infoSource").toString().substring(1, onePiece.get("infoSource").toString().length() - 1));
+                String enSrc = src.request();
+                if(!enSrc.equals("error"))
+                    one.setInfoSourse(enSrc);
+                else
+                    one.setInfoSourse(onePiece.get("infoSource").toString().substring(1, onePiece.get("infoSource").toString().length() - 1));
                 one.setSourceUrl(onePiece.get("sourceUrl").toString().substring(1, onePiece.get("sourceUrl").toString().length() - 1));
                 this.curNewsList.add(one);
             }

@@ -21,12 +21,12 @@ public class CurrentProDAO
     {
         if (input.equals("all") == false)
         {
-            sql = "select pinyin, shortName from protoen where shortName = '" + input
-                    + "' or Name = '" + input + "' or pinyin = '" + input + "'";
+            sql = "SELECT pinyin, shortName FROM protoen WHERE shortName = '" + input
+                    + "' OR Name = '" + input + "' OR pinyin = '" + input + "'";
             List header = jdbcTemplate.queryForList(sql);
             String pinyin = header.get(0).toString().split(",")[0].split("=")[1].split("}")[0];
             String shortName = header.get(0).toString().split(",")[1].split("=")[1].split("}")[0];
-            sql = "select *from province where province_short_name = '" + shortName + "'";
+            sql = "SELECT * FROM province WHERE province_short_name = '" + shortName + "'";
         }
         else if (input.equals("all") == true)
             sql = "SELECT * FROM province";
@@ -57,7 +57,7 @@ public class CurrentProDAO
                     else if (entry.getKey().toString().equals("location_id"))
                         one.setLocationId(Integer.parseInt(entry.getValue().toString()));
                 }
-                String mysql = "select pinyin from protoen where shortName = '" + one.getShortName() + "'";
+                String mysql = "SELECT pinyin FROM protoen WHERE shortName = '" + one.getShortName() + "'";
                 String en = jdbcTemplate.queryForObject(mysql, String.class);
                 one.setNameEn(en);
                 allPro.add(one);

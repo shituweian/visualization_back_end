@@ -70,7 +70,8 @@ public class NationHistoryDAO
     {
         input = null;
         sql = null;
-        nationHistory = new ArrayList<>();
+        nationHistory = new ArrayList<NationHistory>();
+        System.out.println("Reset Nation.");
     }
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate)

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import scc212.api_server.Entity.Medical_CommentsBean;
 import scc212.api_server.Entity.NationHistory;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class Controller
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -72,6 +74,8 @@ public class Controller
                                    @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
                                    @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
                                    @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
+
+        WorldHistorySumDAO worldHistorySum = new WorldHistorySumDAO();
         worldHistorySum.reset();
         worldHistorySum.setInput(name);
         worldHistorySum.setDate(inputDate);
@@ -81,7 +85,6 @@ public class Controller
         worldHistorySum.access();
         return worldHistorySum.getData();
     }
-    
 
     /*
     APIs of China
@@ -137,10 +140,48 @@ public class Controller
         nationalHistory.access();
         return nationalHistory.getNationalHistory();
     }
+    
+    @RequestMapping("/get/CurrentLocation")
+    private Object getIpAddress(HttpServletRequest request)
+    {
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknow".equalsIgnoreCase(ip))
+        {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length () == 0 || "unknown".equalsIgnoreCase (ip))
+            ip = request.getHeader ("WL-Proxy-Client-IP");
+        if (ip == null || ip.length () == 0 || "unknown".equalsIgnoreCase (ip)) {
+            ip = request.getRemoteAddr ();
+            //Get ip address according to network card.
+            if (ip.equals ("127.0.0.1"))
+            {
+                //根据网卡取本机配置的IP
+                InetAddress inet = null;
+                try {
+                    inet = InetAddress.getLocalHost ();
+                } catch (Exception e) {
+                    e.printStackTrace ();
+                }
+                ip = inet.getHostAddress ();
+            }
+        }
+        //Multi-proxy, the first one is the real ip of client.
+        if (ip != null && ip.length () > 15) {
+            if (ip.indexOf (",") > 0)
+            {
+                ip = ip.substring (0, ip.indexOf (","));
+            }
+        }
+        CurrentLocationDAO curPro = new CurrentLocationDAO(ip, this.jdbcTemplate);
+        curPro.process();
+        return curPro.getCurPro();
+    }
 
     @RequestMapping("/NationChart")
     public Object getNationChart(@RequestParam(value = "type") String type)
     {
+        NationChartDAO nationChart = new NationChartDAO();
         nationChart.reset();
         nationChart.setInput(type);
         nationChart.setJdbc(this.jdbcTemplate);
