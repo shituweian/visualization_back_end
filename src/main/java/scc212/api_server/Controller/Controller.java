@@ -20,24 +20,23 @@ public class Controller
     private JdbcTemplate jdbcTemplate;
     private CountryDAO country = new CountryDAO();
     private WorldHistoryDAO worldHistory = new WorldHistoryDAO();
-    private WorldHistorySumDAO worldHistorySum = new WorldHistorySumDAO();
+    //private WorldHistorySumDAO worldHistorySum = new WorldHistorySumDAO();
     private KnowledgeDAO knowledge = new KnowledgeDAO();
     //Tian Yu Added
     private ProHistoryDAO proHisData = new ProHistoryDAO();
-    private CurrentProDAO currentPro = new CurrentProDAO();
+    //private CurrentProDAO currentPro = new CurrentProDAO();
     private NationDAO nation = new NationDAO();
-    private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
+    //private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
     private NationHistoryDAO nationalHistory = new NationHistoryDAO();
-    private NationChartDAO nationChart = new NationChartDAO();
+    //private NationChartDAO nationChart = new NationChartDAO();
     private MedicalCommentsDAO comments = new MedicalCommentsDAO();
     private CurrentNewsDAO newsDAO = new CurrentNewsDAO();
-
 
     public Controller()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -46,6 +45,7 @@ public class Controller
     /*
     APIs of the World.
      */
+
     @RequestMapping("/get/Country")
     public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
         country.reset();
@@ -93,6 +93,7 @@ public class Controller
     @RequestMapping("/get/CurrentProInfo")
     public List getCityInfo(@RequestParam(value = "proName" , required = false, defaultValue = "all") String name)
     {
+        CurrentProDAO currentPro = new CurrentProDAO();
         currentPro.reset();
         currentPro.setInput(name);
         currentPro.setJdbc(this.jdbcTemplate);
@@ -124,6 +125,7 @@ public class Controller
     @RequestMapping("/get/CurrentCities")
     public Object getProWithCities(@RequestParam(value = "proName", required = false, defaultValue = "all") String name)
     {
+        ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
         cities.reset();
         cities.setJdbc(this.jdbcTemplate);
         cities.setInput(name);
@@ -134,6 +136,7 @@ public class Controller
     @RequestMapping("/get/NationHistory")
     public List<NationHistory> getChinaHistory(@RequestParam(value = "date" , required = false, defaultValue = "all") String date)
     {
+        
         nationalHistory.reset();
         nationalHistory.setJdbcTemplate(this.jdbcTemplate);
         nationalHistory.setInput(date);

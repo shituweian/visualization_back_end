@@ -100,7 +100,7 @@ public class NationChartDAO
         nationHistory.reset();
         nationHistory.setInput("all");
         nationHistory.access();
-        System.out.println(nationHistory.getNationalHistory().size() + " " + "before for.");
+
         for(int i = 0; i < nationHistory.getNationalHistory().size(); i++)
         {
             returnChart.addEchartX1(nationHistory.getNationalHistory().get(i).getDate());
@@ -110,7 +110,6 @@ public class NationChartDAO
             returnChart.addEchartY4(nationHistory.getNationalHistory().get(i).getCuredCount());
             returnChart.addEchartY5(nationHistory.getNationalHistory().get(i).getDeadCount());
         }
-        System.out.println(nationHistory.getNationalHistory().size() + " " + "after for.");
     }
 
     //Data for Hubei province.
@@ -149,7 +148,6 @@ public class NationChartDAO
         compareHubei.setParaPro("Hubei");
         compareHubei.setParaDate("all");
         compareHubei.access();
-        System.out.println(compareHubei.getProvinces().size() + "compareHubei");
 
         for(int i = 0; i < compareHubei.getProvinces().size(); i++)
         {
@@ -183,7 +181,6 @@ public class NationChartDAO
         this.sql = null;
         date = null;
         returnChart = new NationChart();
-        System.out.println("Chart Reset.");
     }
 }
 

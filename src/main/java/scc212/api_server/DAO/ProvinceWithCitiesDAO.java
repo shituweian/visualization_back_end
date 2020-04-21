@@ -48,7 +48,7 @@ public class ProvinceWithCitiesDAO
             proWithCity.setProNameEN(pinyin);
             sql = "SELECT * FROM city WHERE map_province_name = '" + Name + "'";
             list =  this.jdbcTemplate.queryForList(sql);
-            readInfo(list);
+            readInfo(list, Name);
             sortList(city);
             proWithCity.setCities(this.city);
             this.return_list.add(proWithCity);
@@ -58,7 +58,7 @@ public class ProvinceWithCitiesDAO
         }
     }
 
-    public void readInfo(List<Map<String, Object>> list)
+    public void readInfo(List<Map<String, Object>> list, String proName)
     {
         for (Map<String, Object> map : list)
         {
@@ -70,7 +70,6 @@ public class ProvinceWithCitiesDAO
                 while (iterator.hasNext())
                 {
                     Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
-
                     String value = entry.getValue().toString();
                     if(entry.getKey().toString().equals("current_confirmed_count"))
                         oneCity.setCurrentConfirmedCount(Integer.parseInt(value));
@@ -86,13 +85,142 @@ public class ProvinceWithCitiesDAO
                         oneCity.setTime(value);
                     else if(entry.getKey().toString().equals("city_name"))
                     {
-                        oneCity.setCityNameCn(value);
+                        //processCn(value, proName);
+                        oneCity.setCityNameCn(processCn(value, proName));
                         oneCity.setCityNameEn(transferPinyin(value));
                     }
                 }
                 city.add(oneCity);
             }
         }
+    }
+
+    public String processCn(String cityName,String proName)
+    {
+        if(cityName.equals("境外输入") || cityName.equals("境外输入人员")
+        || cityName.substring(0, 2).equals("外地") || (cityName.substring(0, 2).equals("兵团") &&
+                !cityName.equals("兵团第六师五家渠市") && !!cityName.equals("兵团第八师石河子市"))
+        || cityName.equals("省级（湖北输入）") || cityName.equals("省十里丰监狱"))
+            return cityName;
+        if(!proName.equals("北京市") && !proName.equals("天津市")
+        && !proName.equals("上海市") && !proName.equals("重庆市"))
+        {
+            if(proName.equals("新疆维吾尔自治区"))
+            {
+                if(cityName.equals("伊犁州"))
+                    return "伊犁哈萨克自治州";
+                else if(cityName.equals("吐鲁番市"))
+                    return cityName;
+                else if(cityName.equals("巴州"))
+                    return "巴音郭楞蒙古自治州";
+                else if(cityName.equals("兵团第六师五家渠市"))
+                    return "五家渠市";
+                else if(cityName.equals("兵团第八师石河子市"))
+                    return "石河子市";
+                else if(cityName.equals("昌吉州"))
+                    return "昌吉回族自治州";
+                else if(cityName.equals("阿克苏地区"))
+                    return cityName;
+            }
+            else if(proName.equals("内蒙古自治区"))
+            {
+                if(cityName.equals("锡林郭勒盟"))
+                    return cityName;
+                else if(cityName.equals("乌海市"))
+                    return cityName;
+                else if(cityName.equals("兴安盟"))
+                    return cityName;
+            }
+            else if(proName.equals("甘肃省"))
+            {
+                if(cityName.equals("甘南"))
+                    return "甘南藏族自治州";
+                else if(cityName.equals("临夏"))
+                    return "临夏回族自治州";
+            }
+            else if(proName.equals("青海省"))
+            {
+                if(cityName.equals("海北州"))
+                    return "海北藏族自治州";
+            }
+            else if(proName.equals("四川省"))
+            {
+                if(cityName.equals("甘孜州"))
+                    return "甘孜藏族自治州";
+                else if(cityName.equals("阿坝州"))
+                    return "阿坝藏族羌族自治州";
+                else if(cityName.equals("凉山州"))
+                    return "凉山彝族自治州";
+            }
+            else if(proName.equals("云南省"))
+            {
+                if(cityName.equals("西双版纳"))
+                    return "西双版纳傣族自治州";
+                else if(cityName.equals("大理州"))
+                    return "大理白族自治州";
+                else if(cityName.equals("红河州"))
+                    return "红河哈尼族彝族自治州";
+                else if(cityName.equals("德宏州"))
+                    return "德宏傣族景颇族自治州";
+                else if(cityName.equals("楚雄州"))
+                    return "楚雄彝族自治州";
+                else if(cityName.equals("文山州"))
+                    return "文山壮族苗族自治州";
+                else if(cityName.substring(0, 2).equals("怒江"))
+                    return "怒江傈僳族自治州";
+                else if(cityName.substring(0, 2).equals("迪庆"))
+                    return "迪庆藏族自治州";
+            }
+            else if(proName.equals("贵州省"))
+            {
+                if(cityName.equals("黔南州"))
+                    return "黔南布依族苗族自治州";
+                else if(cityName.equals("黔东南州"))
+                    return "黔东南苗族侗族自治州";
+                else if(cityName.equals("黔西南州"))
+                    return "黔西南布依族苗族自治州";
+            }
+            else if(proName.equals("湖南省"))
+            {
+                if(cityName.equals("湘西自治州"))
+                    return "湘西土家族苗族自治州";
+            }
+            else if(proName.equals("湖北省"))
+            {
+                if(cityName.equals("神农架林区"))
+                    return "神农架林区";
+                else if(cityName.equals("恩施州"))
+                    return "恩施土家族苗族自治州";
+            }
+            else if(proName.equals("海南省"))
+            {
+                if(cityName.equals("琼中"))
+                    return "琼中黎族苗族自治县";
+                else if(cityName.equals("保亭"))
+                    return "保亭黎族苗族自治县";
+                else if(cityName.equals("陵水"))
+                    return "陵水黎族自治县";
+                else if(cityName.equals("乐东"))
+                    return "乐东黎族自治县";
+                else if(cityName.equals("昌江"))
+                    return "昌江黎族自治县";
+                else if(cityName.equals("临高"))
+                    return "临高县";
+                else if(cityName.equals("白沙"))
+                    return "白沙黎族自治县";
+                else if(cityName.equals("澄迈"))
+                    return "澄迈县";
+                else if(cityName.equals("定安"))
+                    return "定安县";
+            }
+            else if(proName.equals("吉林省"))
+            {
+                if(cityName.equals("延边"))
+                    return "延边朝鲜族自治州";
+            }
+            return cityName = cityName + "市";
+        }
+        return cityName;
     }
 
     public void sortList(List<CityBean> city)
