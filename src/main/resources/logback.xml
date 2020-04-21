@@ -1,0 +1,13 @@
+log4j.logger.org.apache.http=OFF
+log4j.logger.org.apache.http.wire=OFF
+
+
+
+
+
+
+
+
+
+
+

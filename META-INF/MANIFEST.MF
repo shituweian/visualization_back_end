@@ -1,26 +1,26 @@
 Manifest-Version: 1.0
 Main-Class: scc212.api_server.ApiServerApplication
-Class-Path: snakeyaml-1.25.jar HikariCP-3.4.2.jar spring-boot-starter-jd
- bc-2.2.5.RELEASE.jar tomcat-embed-core-9.0.31.jar spring-context-5.2.4.
- RELEASE.jar mssql-jdbc-7.4.1.jre8.jar spring-boot-2.2.5.RELEASE.jar mys
- ql-connector-java-8.0.19.jar hibernate-validator-6.0.18.Final.jar sprin
- g-boot-starter-tomcat-2.2.5.RELEASE.jar spring-data-relational-1.1.5.RE
- LEASE.jar jackson-datatype-jdk8-2.10.2.jar jakarta.validation-api-2.0.2
- .jar jackson-datatype-jsr310-2.10.2.jar spring-boot-starter-validation-
- 2.2.5.RELEASE.jar tomcat-embed-el-9.0.31.jar jackson-module-parameter-n
- ames-2.10.2.jar spring-boot-autoconfigure-2.2.5.RELEASE.jar logback-cla
- ssic-1.2.3.jar jboss-logging-3.4.1.Final.jar jackson-databind-2.10.2.ja
- r spring-beans-5.2.4.RELEASE.jar jackson-core-2.10.2.jar spring-boot-st
- arter-logging-2.2.5.RELEASE.jar spring-data-commons-2.2.5.RELEASE.jar s
- pring-boot-starter-json-2.2.5.RELEASE.jar spring-web-5.2.4.RELEASE.jar 
- jackson-annotations-2.10.2.jar gson-2.8.1.jar spring-core-5.2.4.RELEASE
- .jar classmate-1.5.1.jar spring-jcl-5.2.4.RELEASE.jar spring-jdbc-5.2.4
- .RELEASE.jar spring-webmvc-5.2.4.RELEASE.jar log4j-api-2.12.1.jar sprin
- g-tx-5.2.4.RELEASE.jar spring-aop-5.2.4.RELEASE.jar tomcat-embed-websoc
- ket-9.0.31.jar spring-expression-5.2.4.RELEASE.jar slf4j-api-1.7.30.jar
-  spring-boot-starter-web-2.2.5.RELEASE.jar jakarta.annotation-api-1.3.5
- .jar spring-boot-starter-2.2.5.RELEASE.jar spring-data-jdbc-1.1.5.RELEA
- SE.jar jul-to-slf4j-1.7.30.jar log4j-to-slf4j-2.12.1.jar logback-core-1
- .2.3.jar pinyin4j-2.5.1.jar spring-boot-starter-data-jdbc-2.2.5.RELEASE
- .jar
+Class-Path: spring-boot-starter-validation-2.2.5.RELEASE.jar commons-cod
+ ec-1.13.jar jackson-module-parameter-names-2.10.2.jar spring-expression
+ -5.2.4.RELEASE.jar spring-boot-autoconfigure-2.2.5.RELEASE.jar spring-b
+ oot-starter-2.2.5.RELEASE.jar jackson-annotations-2.10.2.jar spring-boo
+ t-starter-tomcat-2.2.5.RELEASE.jar slf4j-api-1.7.30.jar spring-tx-5.2.4
+ .RELEASE.jar jul-to-slf4j-1.7.30.jar spring-webmvc-5.2.4.RELEASE.jar lo
+ gback-core-1.2.3.jar spring-web-5.2.4.RELEASE.jar jackson-datatype-jdk8
+ -2.10.2.jar spring-beans-5.2.4.RELEASE.jar httpclient-4.3.5.jar jakarta
+ .validation-api-2.0.2.jar spring-boot-starter-json-2.2.5.RELEASE.jar sp
+ ring-data-relational-1.1.5.RELEASE.jar spring-context-5.2.4.RELEASE.jar
+  spring-data-jdbc-1.1.5.RELEASE.jar spring-jcl-5.2.4.RELEASE.jar log4j-
+ api-2.12.1.jar tomcat-embed-websocket-9.0.31.jar jackson-core-2.10.2.ja
+ r spring-data-commons-2.2.5.RELEASE.jar jackson-datatype-jsr310-2.10.2.
+ jar mssql-jdbc-7.4.1.jre8.jar log4j-to-slf4j-2.12.1.jar snakeyaml-1.25.
+ jar jackson-databind-2.10.2.jar spring-boot-starter-logging-2.2.5.RELEA
+ SE.jar classmate-1.5.1.jar gson-2.8.1.jar jboss-logging-3.4.1.Final.jar
+  spring-jdbc-5.2.4.RELEASE.jar tomcat-embed-core-9.0.31.jar tomcat-embe
+ d-el-9.0.31.jar HikariCP-3.4.2.jar pinyin4j-2.5.1.jar mysql-connector-j
+ ava-8.0.19.jar httpcore-4.4.13.jar hibernate-validator-6.0.18.Final.jar
+  jakarta.annotation-api-1.3.5.jar spring-boot-starter-web-2.2.5.RELEASE
+ .jar logback-classic-1.2.3.jar spring-boot-2.2.5.RELEASE.jar spring-cor
+ e-5.2.4.RELEASE.jar spring-boot-starter-jdbc-2.2.5.RELEASE.jar spring-a
+ op-5.2.4.RELEASE.jar spring-boot-starter-data-jdbc-2.2.5.RELEASE.jar
 
