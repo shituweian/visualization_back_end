@@ -36,7 +36,7 @@ public class Controller
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -136,7 +136,6 @@ public class Controller
     @RequestMapping("/get/NationHistory")
     public List<NationHistory> getChinaHistory(@RequestParam(value = "date" , required = false, defaultValue = "all") String date)
     {
-        
         nationalHistory.reset();
         nationalHistory.setJdbcTemplate(this.jdbcTemplate);
         nationalHistory.setInput(date);
@@ -159,7 +158,7 @@ public class Controller
             //Get ip address according to network card.
             if (ip.equals ("127.0.0.1"))
             {
-                //根据网卡取本机配置的IP
+                //Get local ip use network card.
                 InetAddress inet = null;
                 try {
                     inet = InetAddress.getLocalHost ();
@@ -176,6 +175,8 @@ public class Controller
                 ip = ip.substring (0, ip.indexOf (","));
             }
         }
+        //Note that can not use localhost as an client, or can not return the local data.
+        System.out.println(ip);
         CurrentLocationDAO curPro = new CurrentLocationDAO(ip, this.jdbcTemplate);
         curPro.process();
         return curPro.getCurPro();

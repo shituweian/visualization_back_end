@@ -27,7 +27,7 @@ public class NationDAO
 
     public void access()
     {
-        sql = "select *from province";
+        sql = "SELECT *FROM province";
         List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : list)
         {

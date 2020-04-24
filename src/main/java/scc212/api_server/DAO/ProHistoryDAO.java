@@ -31,8 +31,8 @@ public class ProHistoryDAO
         proNumber = null;
         enName = null;
         cnName = null;
-        sql = "select pinyin, ID, shortName from protoen where shortName = '" + paraPro
-                + "' or Name = '" + paraPro + "' or pinyin = '" + paraPro + "' or ID = '" + paraPro + "'";
+        sql = "SELECT pinyin, ID, shortName FROM protoen WHERE shortName = '" + paraPro
+                + "' OR Name = '" + paraPro + "' OR pinyin = '" + paraPro + "' OR ID = '" + paraPro + "'";
         List header = jdbcTemplate.queryForList(sql);
         enName = header.get(0).toString().split(",")[0].split("=")[1].split("}")[0];
         proNumber = header.get(0).toString().split(",")[1].split("=")[1].split("}")[0];
@@ -42,9 +42,9 @@ public class ProHistoryDAO
         return_list.setCnName(cnName);
         System.out.println(paraDate);
         if(this.paraDate.equals("all") == false)
-            mysql = "select *  from history" +" where date_id = '" + paraDate + "' and location_id = '" + proNumber + "'";
+            mysql = "SELECT *  FROM history" +" WHERE date_id = '" + paraDate + "' AND location_id = '" + proNumber + "'";
         else if(this.paraDate.equals("all") == true)
-            mysql = "select * from history where location_id = '" + proNumber + "'";
+            mysql = "SELECT * FROM history WHERE location_id = '" + proNumber + "'";
         List<Map<String, Object>> list =  this.jdbcTemplate.queryForList(mysql);
         queryData(list);
         return_list.setPros(provinces);
@@ -100,7 +100,6 @@ public class ProHistoryDAO
 
     public void reset()
     {
-        //System.out.println("Reset.");
         provinces = new ArrayList<ProHistoryBean>();
         this.paraDate = null;
         this.paraPro = null;

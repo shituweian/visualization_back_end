@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -37,6 +36,11 @@ public class TransApi
     public TransApi(String query)
     {
         this.query = query;
+        this.query = this.query.replaceAll("“", " ");
+        this.query = this.query.replaceAll("”", " ");
+        this.query = this.query.replaceAll("#", "");
+        this.query = this.query.replaceAll("&", "");
+        this.query = this.query.replaceAll("\\\\", "");
     }
 
 

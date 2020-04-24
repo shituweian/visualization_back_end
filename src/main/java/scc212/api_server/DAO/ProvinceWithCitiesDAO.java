@@ -218,6 +218,8 @@ public class ProvinceWithCitiesDAO
                 if(cityName.equals("延边"))
                     return "延边朝鲜族自治州";
             }
+            else if(cityName.equals("台湾"))
+                return cityName;
             return cityName = cityName + "市";
         }
         return cityName;

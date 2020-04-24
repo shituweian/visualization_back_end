@@ -24,25 +24,15 @@ public class MedicalCommentsDAO
     //Access the local txt file, then read data, and store in Arraylist.
     public void access()
     {
-        String Path = System.getProperty("user.dir");
-        File ctoFile = new File(Path + "/TextResources/MedicalComments.txt");
-        InputStreamReader reading = null;
-        String title[] = new String[2];
-        String content[] = new String[2];
-        try {
-            reading = new InputStreamReader(new FileInputStream(ctoFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        BufferedReader counting = new BufferedReader(reading);
-        String txtline = null;
+        InputStream is = this.getClass().getResourceAsStream("/TextResources/MedicalComments.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String txtline ="";
         int count = 0;
         int line = 0;
         boolean isSet = false;
         try {
-            while ((txtline = counting.readLine()) != null)
+            while((txtline=br.readLine())!=null)
             {
-
                 if(txtline.substring(1, 2).equals("."))
                 {
                     if(count != 0)
@@ -62,9 +52,8 @@ public class MedicalCommentsDAO
                 }
             }
             return_list.add(comments);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

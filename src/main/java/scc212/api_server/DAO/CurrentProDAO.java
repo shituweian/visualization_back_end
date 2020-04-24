@@ -21,6 +21,12 @@ public class CurrentProDAO
     {
         if (input.equals("all") == false)
         {
+            if(input.equals("台湾省"))
+                input = "Taiwan";
+            else if(input.equals("香港市"))
+                input = "Hong Kong";
+            else if(input.equals("澳门市"))
+                input = "Macau";
             sql = "SELECT pinyin, shortName FROM protoen WHERE shortName = '" + input
                     + "' OR Name = '" + input + "' OR pinyin = '" + input + "'";
             List header = jdbcTemplate.queryForList(sql);

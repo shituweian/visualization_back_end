@@ -8,9 +8,15 @@ import scc212.api_server.Entity.CurrentLocation;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
+
+/*
+This class invoke the Baidu IP-location API, used for return the client's current location.
+Using IP to get location means it may not 100% correctly.
+Because Baidu IP-location API does not support the ip address from oversea, which means can oly get location for users in Cina.
+Therefore, if client's ip is not belongs to China, the locator will fail.
+Developed by Tian Yu 17722024 on 2020-04-10
+ */
 
 public class CurrentLocationDAO
 {
@@ -27,7 +33,6 @@ public class CurrentLocationDAO
 
     public CurrentLocationDAO(String ip, JdbcTemplate jdbcTemplate)
     {
-        System.out.println(ip);
         this.ip = ip;
         this.url = "http://api.map.baidu.com/location/ip?ak=";
         this.key = "kIfM8oS1DpZfZjsbvXYnbuvBOUdSkViH";
@@ -60,15 +65,21 @@ public class CurrentLocationDAO
             this.curPro.setStatus(0);
             this.curPro.setComments("success");
         }
-        //If query failed.
+        //If query failed, return data of Beijing
         //Failed conditions: The ip address is not belongs to China.
         else
         {
             this.curPro.setStatus(1);
-            this.curPro.setComments("Sorry, the ip address unavailable.");
-            this.curPro.setCurProvince(null);
+            this.curPro.setComments("Sorry, the your location ip address unavailable. May be ip is not belongs to China. Return the data for Beijing.");
+            queryPro.reset();
+            queryPro.setJdbc(this.jdbcTemplate);
+            queryPro.setInput("Beijing");
+            queryPro.access();
+            this.curPro.setCurProvince(queryPro.getPor());
         }
     }
+
+
 
     public String request()
     {
@@ -93,6 +104,7 @@ public class CurrentLocationDAO
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(result);
         return result;
     }
 

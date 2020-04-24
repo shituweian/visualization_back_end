@@ -17,7 +17,6 @@ Developer: Tian Yu 17722024
 At 2020.04.18
  */
 
-
 public class CurrentNewsDAO
 {
     private String url;
@@ -44,29 +43,10 @@ public class CurrentNewsDAO
     {
         //The returned json data queried from API.
         jsonResult = request(url, key);
-        writeIntoFile(jsonResult);
         processData(jsonResult);
     }
 
-    public void writeIntoFile(String data)
-    {
-        jsonElements = jsonParser.parse(data).getAsJsonObject();
-        JsonElement code = jsonElements.get("code");
-        if(code.toString().equals("200"))
-        {
-            File file = new File("TextResources/NewsJson.txt");
-            FileWriter fileWriter = null;
-            try {
-                file.createNewFile();
-                fileWriter = new FileWriter(file);
-                fileWriter.write(data);
-                fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    //Process json data, if query data failed, read news from local txt.
     public void processData(String json)
     {
         jsonElements = jsonParser.parse(json).getAsJsonObject();
@@ -118,21 +98,16 @@ public class CurrentNewsDAO
 
     public String readFromLocal()
     {
-        String Path = System.getProperty("user.dir");
-        File ctoFile = new File(Path + "/TextResources/NewsJson.txt");
-        InputStreamReader reading = null;
+        InputStream is = this.getClass().getResourceAsStream("/TextResources/MedicalComments.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String txtline = "";
+        String returnString = "";
         try {
-            reading = new InputStreamReader(new FileInputStream(ctoFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        BufferedReader counting = new BufferedReader(reading);
-        String txtline = null;
-        String returnString = null;
-        try {
-            while ((txtline = counting.readLine()) != null)
-                returnString =  txtline;
-        }catch (IOException e) {
+            while ((txtline = br.readLine()) != null)
+            {
+                returnString = txtline;
+            }
+        }catch(IOException e) {
             e.printStackTrace();
         }
         return returnString;
