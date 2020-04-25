@@ -36,11 +36,8 @@ public class TransApi
     public TransApi(String query)
     {
         this.query = query;
-        this.query = this.query.replaceAll("“", " ");
-        this.query = this.query.replaceAll("”", " ");
-        this.query = this.query.replaceAll("#", "");
-        this.query = this.query.replaceAll("&", "");
-        this.query = this.query.replaceAll("\\\\", "");
+        this.query = this.query.replaceAll("“", "");
+        this.query = this.query.replaceAll("”", "");
     }
 
 

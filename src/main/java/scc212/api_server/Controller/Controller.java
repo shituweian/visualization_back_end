@@ -91,6 +91,7 @@ public class Controller
     APIs of China
      */
 
+    //Get the information for provinces in China, can choose one or all provinces
     @RequestMapping("/get/CurrentProInfo")
     public List getCityInfo(@RequestParam(value = "proName" , required = false, defaultValue = "all") String name)
     {
@@ -102,6 +103,7 @@ public class Controller
         return currentPro.getPor();
     }
 
+    //Get
     @RequestMapping(value = "/get/getProHistoryData")
     public Object getHistoryData(@RequestParam(value = "proName") String name,
                                @RequestParam(value = "date", required = false, defaultValue = "all") String date)
