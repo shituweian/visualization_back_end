@@ -1,5 +1,4 @@
-API Documentation
-# 0  Specifications
+# 0  API Documentation Specifications
 ## 0.1  Legend
 ### 0.1.1  Regex
 
@@ -20,22 +19,22 @@ JSON for transmission over the Internet.
 
                                               Table 1-1  API Specifications (Ref. 0.1.1)
 
-| No. | API Name | URL | Data Formate | Remark | Developer
+| No. | API Name | URL | Data Formate | Remark | Developer|
 | --- | -------- | --- | ------------ | ------ |----------|
-| 0   |     ADDRESS     |   http://112.125.95.205:8090   |       NULL       |    ROOT    | NULL
-| 1   |     CN_CurrentData     |  <ADDRESS>/get/CurrentChina   |  Json Object  | Current data for China        | Tian Yu
-| 2   |     CN_CurrentProvince |  <Address>/get/CurrentProInfo[?proName=proName]      |   Json Array|       One certain province or all provinces; ordered by total confirmed count DESC      |Tian Yu
-| 3   |    CN_ProvinceCities     |  <ADDRESS>/get/CurrentCities[?proName=<En_name  _or_  Cn_ShprtName>]  |      Json Array        |    Cities for one province or all province; sorted by total confirmed count of cities    |Tian Yu
-| 4   |     CN_ProvinceHistory     |   <ADDRESS>/get/getProHistoryData[?{&proName=<En_name  _or_  Cn_shortName>]^[&date=<yyyymmdd>}]  |  Json Object            |    One/All province(s) history data for one/all days   | Tian Yu
-| 5   |     CN_NationHistory     | <ADDRESS>/get/NationHistory[?date=<yyyymmdddd>]   |       Json Array      |    One or all day for     | Tian Yu
-| 6   |      CN_NationChart    |   <ADDRESS>/NationChart[?type=<chosenType>]  |       Json Object       |    chosenType ∈{overSeaInputTop10, nationHistoryChart, historyInfoForHubei, HubeiCompareOthers, provinceCompareFull}| Tian Yu
-| 7   |     Medical_Comments     |  <ADDRESS>/MedicalComments   |        Json Array   |    6 medical comments    | Tian Yu
-|8|COVID19_CurrentNews|<ADDRESS>/CurrentNews| Json Array | Latest news for covid-19| Tian Yu
-|9| IP_CurProvince | <ADDRESS>/get/CurrentLocation | Json Array | Using IP address to get the current province of user; unavailable for abroad countries.|Tian Yu
-|10|World_currentData|<ADDRESS>/get/Country?[&country={CountryName ^ null ^ all}]|JSON Array|Current data of the specifeid country. If country is not specified, return current data of all countries, inclouding China. |Chongyang Zhao
-|11|World_History|<ADDRESS>/get/WorldHistory?[{&date = yyyymmdd ^ {&startDate = yyyymmdd &endDate = yyyymmdd}}][&country=CountryName ^ all]|JSON Array|History data in certain day of the specified country. If date is unspecified, return all data. If country is not specified, return data of all countries.|Chongyang Zhao
-|12|World_History_Sum|<ADDRESS>/get/WorldHistorySum?[{&date=yyyymmdd ^ {&startDate=yyyymmdd&endDate=yyyymmdd}}][&name=ContinentName ^ world ^ all]|JSON Array|When name =ContinentName,return the overview of the continent;When name =world, return the overview of world;When name =all, return the all overview data except the world info|Chongyang Zhao
-|13|COVID-19 Knowledge|<ADDRESS>/Knowledge|JSON Array|Some questions and answers about COVID-19|Chongyang Zhao
+| 0   |     ADDRESS     |   http://112.125.95.205:8090   |       NULL       |    ROOT    | NULL|
+| 1   |     CN_CurrentData     |  <ADDRESS>/get/CurrentChina   |  Json Object  | Current data for China        | Tian Yu|
+| 2   |     CN_CurrentProvince |  <Address>/get/CurrentProInfo[?proName=proName]      |   Json Array|       One certain province or all provinces; ordered by total confirmed count DESC      |Tian Yu|
+| 3   |    CN_ProvinceCities     |  <ADDRESS>/get/CurrentCities[?proName=<En_name  _or_  Cn_ShprtName>]  |      Json Array        |    Cities for one province or all province; sorted by total confirmed count of cities    |Tian Yu|
+| 4   |     CN_ProvinceHistory     |   <ADDRESS>/get/getProHistoryData[?{&proName=<En_name  _or_  Cn_shortName>]^[&date=<yyyymmdd>}]  |  Json Object            |    One/All province(s) history data for one/all days   | Tian Yu|
+| 5   |     CN_NationHistory     | <ADDRESS>/get/NationHistory[?date=<yyyymmdddd>]   |       Json Array      |    One or all day for     | Tian Yu|
+| 6   |      CN_NationChart    |   <ADDRESS>/NationChart[?type=<chosenType>]  |       Json Object       |    chosenType ∈{overSeaInputTop10, nationHistoryChart, historyInfoForHubei, HubeiCompareOthers, provinceCompareFull}| Tian Yu|
+| 7   |     Medical_Comments     |  <ADDRESS>/MedicalComments   |        Json Array   |    6 medical comments    | Tian Yu|
+|8|COVID19_CurrentNews|<ADDRESS>/CurrentNews| Json Array | Latest news for covid-19| Tian Yu|
+|9| IP_CurProvince | <ADDRESS>/get/CurrentLocation | Json Array | Using IP address to get the current province of user; unavailable for abroad countries.|Tian Yu|
+|10|World_currentData|<ADDRESS>/get/Country?[&country={CountryName ^ null ^ all}]|JSON Array|Current data of the specifeid country. If country is not specified, return current data of all countries, inclouding China. |Chongyang Zhao|
+|11|World_History|<ADDRESS>/get/WorldHistory?[{&date = yyyymmdd ^ {&startDate = yyyymmdd &endDate = yyyymmdd}}][&country=CountryName ^ all]|JSON Array|History data in certain day of the specified country. If date is unspecified, return all data. If country is not specified, return data of all countries.|Chongyang Zhao|
+|12|World_History_Sum|<ADDRESS>/get/WorldHistorySum?[{&date=yyyymmdd ^ {&startDate=yyyymmdd&endDate=yyyymmdd}}][&name=ContinentName ^ world ^ all]|JSON Array|When name =ContinentName,return the overview of the continent;When name =world, return the overview of world;When name =all, return the all overview data except the world info|Chongyang Zhao|
+|13|COVID-19 Knowledge|<ADDRESS>/Knowledge|JSON Array|Some questions and answers about COVID-19|Chongyang Zhao|
 
 
 
