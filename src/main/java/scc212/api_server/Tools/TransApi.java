@@ -38,6 +38,8 @@ public class TransApi
         this.query = query;
         this.query = this.query.replaceAll("“", "");
         this.query = this.query.replaceAll("”", "");
+        this.query = this.query.replaceAll("「", "[");
+        this.query = this.query.replaceAll("」", "]");
     }
 
 
@@ -79,6 +81,7 @@ public class TransApi
             return "error";
         JsonElement translation = jsonElements.get("translation");
         String trans = translation.toString().substring(1, translation.toString().length() - 1);
+        trans = trans.replaceAll("\\\\", "");
         return trans;
     }
 }

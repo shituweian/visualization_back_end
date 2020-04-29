@@ -3,7 +3,7 @@ The International Committee on Taxonomy of viruses is a newly discovered coronav
 At present, the initial cases are from the seafood market in Wuhan. The initial source of infection is wild animals, possibly the Chinese chrysanthemum head bat. Up to now novel coronavirus pneumonia novel coronavirus infected pneumonia diagnosis scheme (trial version sixth) has been reported. The main source of infection is new coronavirus pneumonia, and asymptomatic people can also be called the source of infection.
 2. What symptom appears to be infected with the virus?
 The common symptoms of novel coronavirus infection are fever, fatigue, dry cough, and gradually dyspnea. Some patients have mild onset symptoms, or even no obvious fever. Severe symptoms include: acute respiratory distress syndrome, septic shock, metabolic acidosis which is difficult to correct, and coagulation dysfunction. From the current situation of the cases, most of the patients have a good prognosis, and a few of them are critically ill or even dead. 
-In addition to the above symptoms, there may be "atypical" symptoms, such as:
+In addition to the above symptoms, there may be 'atypical' symptoms, such as:
 (1) The first symptoms were digestive system symptoms, such as mild anorexia, asthenia, poor spirit, nausea and vomiting, diarrhea, etc;
 (2) The first manifestation was nervous system symptoms, such as headache;
 (3) The first manifestation was cardiovascular system symptoms, such as palpitation, chest distress, etc;

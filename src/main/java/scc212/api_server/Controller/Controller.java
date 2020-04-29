@@ -5,12 +5,10 @@ import scc212.api_server.DAO.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.*;
-import scc212.api_server.Entity.Medical_CommentsBean;
 import scc212.api_server.Entity.NationHistory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @CrossOrigin(origins = {"*","null"})
@@ -18,19 +16,6 @@ import java.util.List;
 public class Controller
 {
     private JdbcTemplate jdbcTemplate;
-    private CountryDAO country = new CountryDAO();
-    private WorldHistoryDAO worldHistory = new WorldHistoryDAO();
-    //private WorldHistorySumDAO worldHistorySum = new WorldHistorySumDAO();
-    private KnowledgeDAO knowledge = new KnowledgeDAO();
-    //Tian Yu Added
-    private ProHistoryDAO proHisData = new ProHistoryDAO();
-    //private CurrentProDAO currentPro = new CurrentProDAO();
-    private NationDAO nation = new NationDAO();
-    //private ProvinceWithCitiesDAO cities = new ProvinceWithCitiesDAO();
-    private NationHistoryDAO nationalHistory = new NationHistoryDAO();
-    //private NationChartDAO nationChart = new NationChartDAO();
-    private MedicalCommentsDAO comments = new MedicalCommentsDAO();
-    private CurrentNewsDAO newsDAO = new CurrentNewsDAO();
 
     public Controller()
     {
@@ -48,7 +33,9 @@ public class Controller
      */
 
     @RequestMapping("/get/Country")
-    public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
+    public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name)
+    {
+        CountryDAO country = new CountryDAO();
         country.reset();
         country.setInput(name);
         country.setJdbc(this.jdbcTemplate);
@@ -60,7 +47,9 @@ public class Controller
     public List getWorldHistory(@RequestParam(value = "country" , required = false, defaultValue = "all") String name,
                                 @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
                                 @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
-                                @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
+                                @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate)
+    {
+        WorldHistoryDAO worldHistory = new WorldHistoryDAO();
         worldHistory.reset();
         worldHistory.setInput(name);
         worldHistory.setDate(inputDate);
@@ -108,6 +97,7 @@ public class Controller
     public Object getHistoryData(@RequestParam(value = "proName") String name,
                                @RequestParam(value = "date", required = false, defaultValue = "all") String date)
     {
+        ProHistoryDAO proHisData = new ProHistoryDAO();
         proHisData.reset();
         proHisData.setParaPro(name);
         proHisData.setParaDate(date);
@@ -119,6 +109,7 @@ public class Controller
     @RequestMapping("/get/CurrentChina")
     public Object getNation()
     {
+        NationDAO nation = new NationDAO();
         nation.reset();
         nation.setJdbc(this.jdbcTemplate);
         nation.access();
@@ -139,6 +130,7 @@ public class Controller
     @RequestMapping("/get/NationHistory")
     public List<NationHistory> getChinaHistory(@RequestParam(value = "date" , required = false, defaultValue = "all") String date)
     {
+        NationHistoryDAO nationalHistory = new NationHistoryDAO();
         nationalHistory.reset();
         nationalHistory.setJdbcTemplate(this.jdbcTemplate);
         nationalHistory.setInput(date);
@@ -149,38 +141,42 @@ public class Controller
     @RequestMapping("/get/CurrentLocation")
     private Object getIpAddress(HttpServletRequest request)
     {
-        String ip = request.getHeader("x-forwarded-for");
-        if(ip == null || ip.length() == 0 || "unknow".equalsIgnoreCase(ip))
-        {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length () == 0 || "unknown".equalsIgnoreCase (ip))
-            ip = request.getHeader ("WL-Proxy-Client-IP");
-        if (ip == null || ip.length () == 0 || "unknown".equalsIgnoreCase (ip)) {
-            ip = request.getRemoteAddr ();
-            //Get ip address according to network card.
-            if (ip.equals ("127.0.0.1"))
-            {
-                //Get local ip use network card.
-                InetAddress inet = null;
-                try {
-                    inet = InetAddress.getLocalHost ();
-                } catch (Exception e) {
-                    e.printStackTrace ();
+        String clientIp = null;
+        try {
+            String ip = request.getHeader("x-forwarded-for");
+            if (ip == null || ip.length() == 0 || "unknow".equalsIgnoreCase(ip)) {
+                ip = request.getHeader("Proxy-Client-IP");
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+                ip = request.getHeader("WL-Proxy-Client-IP");
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = request.getRemoteAddr();
+                //Get ip address according to network card.
+                if (ip.equals("127.0.0.1")) {
+                    //Get local ip use network card.
+                    InetAddress inet = null;
+                    try {
+                        inet = InetAddress.getLocalHost();
+                    } catch (Exception e) {
+                        clientIp = "112.125.95.205";
+                        e.printStackTrace();
+                    }
+                    ip = inet.getHostAddress();
                 }
-                ip = inet.getHostAddress ();
             }
-        }
-        //Multi-proxy, the first one is the real ip of client.
-        if (ip != null && ip.length () > 15) {
-            if (ip.indexOf (",") > 0)
-            {
-                ip = ip.substring (0, ip.indexOf (","));
+            //Multi-proxy, the first one is the real ip of client.
+            if (ip != null && ip.length() > 15) {
+                if (ip.indexOf(",") > 0) {
+                    ip = ip.substring(0, ip.indexOf(","));
+                }
             }
+            clientIp = ip;
+        }catch(Exception e)
+        {
+            clientIp = "112.125.95.205";
         }
         //Note that can not use localhost as an client, or can not return the local data.
-        System.out.println(ip);
-        CurrentLocationDAO curPro = new CurrentLocationDAO(ip, this.jdbcTemplate);
+        CurrentLocationDAO curPro = new CurrentLocationDAO(clientIp, this.jdbcTemplate);
         curPro.process();
         return curPro.getCurPro();
     }
@@ -203,6 +199,7 @@ public class Controller
     @RequestMapping("/MedicalComments")
     public List getMedicalComments()
     {
+        MedicalCommentsDAO comments = new MedicalCommentsDAO();
         comments.reset();
         comments.access();
         return comments.getReturn_list();
@@ -211,6 +208,7 @@ public class Controller
     @RequestMapping("/CurrentNews")
     public List getCurrentNews()
     {
+        CurrentNewsDAO newsDAO = new CurrentNewsDAO();
         newsDAO.reset();
         newsDAO.access();
         return newsDAO.getCurNewsList();
@@ -220,6 +218,7 @@ public class Controller
     @RequestMapping("/Knowledge")
     public List getKnowledge()
     {
+        KnowledgeDAO knowledge = new KnowledgeDAO();
         knowledge.reset();
         knowledge.access();
         return knowledge.getReturn_list();

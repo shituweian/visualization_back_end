@@ -20,7 +20,6 @@ public class CountryDAO {
 
     public void reset()
     {
-        //this.queriedCountry = new Country();
         this.allCountry = new ArrayList<>();
     }
 

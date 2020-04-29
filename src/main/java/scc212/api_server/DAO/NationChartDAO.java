@@ -122,7 +122,6 @@ public class NationChartDAO
         hubei.setParaPro("Hubei");
         hubei.setParaDate("all");
         hubei.access();
-        System.out.println(hubei.getProvinces().size() + "hubei");
 
         for(int i = 0; i < hubei.getProvinces().size(); i++)
         {

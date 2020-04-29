@@ -1,5 +1,7 @@
 package scc212.api_server.Entity;
 
+import scc212.api_server.DAO.CountryDAO;
+
 public class Country {
     private String country_name;
     private String country_name_en;
