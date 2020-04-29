@@ -8,15 +8,15 @@ package scc212.api_server.Entity;
 
 public class Province
 {
-    private String nameCN; //Chinese name
-    private String shortName; //Short name of the province
-    private String nameEn; //English name
-    private int confirmedCount; //Confirmed number of the province
-    private int currentConfirmedCount; //Currented existed number(现存确诊)
-    private int curedCount; // Cured number of the province(治愈人数)
-    private int deadCount; //Dead number of the province(死亡人数)
-    private int suspectedCount; //Suspected number the province(疑似病例)
-    private int locationId; //The location ID of the province
+    private String nameCN;
+    private String shortName;
+    private String nameEn;
+    private int confirmedCount;
+    private int currentConfirmedCount;
+    private int curedCount;
+    private int deadCount;
+    private int suspectedCount;
+    private int locationId;
 
     public String getNameCN()
     {

@@ -168,6 +168,4 @@ public class WorldHistorySumDAO {
     public List getData() {
         return data;
     }
-
-
 }
