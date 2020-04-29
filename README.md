@@ -1,4 +1,11 @@
 # API Documentation 
+This is CNSCC212 Advanced Programming Coursework API Server Part\
+Yu Tian (China Part)\
+Chongyang Zhao (World Part)\
+This project is based on Spring Boot\
+Port: 8090
+### Dcoker:
+docker pull registry.cn-beijing.aliyuncs.com/scc212_group3/api_server
 # 0  API Documentation Specifications
 ## 0.1  Legend
 ### 0.1.1  Regex

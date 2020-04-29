@@ -1,8 +1,16 @@
+/**
+ * World History API
+ * Please see the details in wiki
+ *
+ * @author Chongyang Zhoao
+ *
+ * @date 2020/04/29
+ */
+
 package scc212.api_server.DAO;
 
 import scc212.api_server.Entity.WorldHistory;
 import org.springframework.jdbc.core.JdbcTemplate;
-//import scc212.api_server.Entity.WorldHistoryRate;
 
 import java.util.*;
 
@@ -21,8 +29,7 @@ public class WorldHistoryDAO {
 
     }
 
-    public void reset()
-    {
+    public void reset() {
         //this.queriedCountry = new WorldHistory();
         this.country = new ArrayList<WorldHistory>();
     }

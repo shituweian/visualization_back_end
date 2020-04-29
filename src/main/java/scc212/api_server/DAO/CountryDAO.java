@@ -1,3 +1,12 @@
+/**
+ * Country API
+ * Please see the details in wiki
+ *
+ * @author Chongyang Zhoao
+ *
+ * @date 2020/04/29
+ */
+
 package scc212.api_server.DAO;
 
 import scc212.api_server.Entity.Country;

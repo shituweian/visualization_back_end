@@ -1,3 +1,12 @@
+/**
+ * Knowledge API (FQAs)
+ * Please see the details in wiki
+ *
+ * @author Chongyang Zhoao
+ *
+ * @date 2020/04/29
+ */
+
 package scc212.api_server.DAO;
 
 import scc212.api_server.Entity.Knowledge;
@@ -7,18 +16,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KnowledgeDAO
-{
+public class KnowledgeDAO {
     private Knowledge contents = new Knowledge();
     private List<Knowledge> return_list = new ArrayList<Knowledge>();
 
-    public KnowledgeDAO()
-    {
+    public KnowledgeDAO() {
 
     }
 
-    public void access()
-    {
+    public void access() {
         InputStream is = this.getClass().getResourceAsStream("/TextResources/Knowledge.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String txtline ="";
@@ -53,14 +59,12 @@ public class KnowledgeDAO
         }
     }
 
-    public void reset()
-    {
+    public void reset() {
         contents = new Knowledge();
         return_list = new ArrayList<Knowledge>();
     }
 
-    public List<Knowledge> getReturn_list()
-    {
+    public List<Knowledge> getReturn_list() {
         return this.return_list;
     }
 }

@@ -1,3 +1,12 @@
+/**
+ * World History Sum API
+ * Please see the details in wiki
+ *
+ * @author Chongyang Zhoao
+ *
+ * @date 2020/04/29
+ */
+
 package scc212.api_server.DAO;
 
 import scc212.api_server.Entity.WorldHistorySum;
@@ -20,8 +29,7 @@ public class WorldHistorySumDAO {
 
     }
 
-    public void reset()
-    {
+    public void reset() {
         //this.queriedCountry = new WorldHistory();
         this.data = new ArrayList<WorldHistorySum>();
     }

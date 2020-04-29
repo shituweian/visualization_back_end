@@ -13,12 +13,10 @@ import java.util.List;
 
 @CrossOrigin(origins = {"*","null"})
 @RestController
-public class Controller
-{
+public class Controller {
     private JdbcTemplate jdbcTemplate;
 
-    public Controller()
-    {
+    public Controller() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
@@ -28,13 +26,9 @@ public class Controller
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    /*
-    APIs of the World.
-     */
-
+    // >>> World API Part
     @RequestMapping("/get/Country")
-    public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name)
-    {
+    public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
         CountryDAO country = new CountryDAO();
         country.reset();
         country.setInput(name);
@@ -47,8 +41,7 @@ public class Controller
     public List getWorldHistory(@RequestParam(value = "country" , required = false, defaultValue = "all") String name,
                                 @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
                                 @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
-                                @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate)
-    {
+                                @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
         WorldHistoryDAO worldHistory = new WorldHistoryDAO();
         worldHistory.reset();
         worldHistory.setInput(name);
@@ -75,6 +68,8 @@ public class Controller
         worldHistorySum.access();
         return worldHistorySum.getData();
     }
+    // >>> The end of World API Part
+
 
     /*
     APIs of China
