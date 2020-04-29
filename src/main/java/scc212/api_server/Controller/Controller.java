@@ -20,7 +20,6 @@ public class Controller {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
-        //dataSource.setUrl("jdbc:mysql://localhost:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
         dataSource.setPassword("2020");
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -87,7 +86,6 @@ public class Controller {
         return currentPro.getPor();
     }
 
-    //Get
     @RequestMapping(value = "/get/getProHistoryData")
     public Object getHistoryData(@RequestParam(value = "proName") String name,
                                @RequestParam(value = "date", required = false, defaultValue = "all") String date)
@@ -188,7 +186,7 @@ public class Controller {
     }
 
     /*
-    APIs for some news and comments.
+    APIs for others
      */
 
     @RequestMapping("/MedicalComments")

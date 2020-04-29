@@ -4,6 +4,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import scc212.api_server.Entity.Province;
 import java.util.*;
 
+/*
+@ Intro: This class return the data of provinces in China currently.
+@ Author: Tian Yu 17722024
+@ Date: 2020.03.28
+ */
+
 public class CurrentProDAO
 {
     private JdbcTemplate jdbcTemplate;
@@ -73,6 +79,7 @@ public class CurrentProDAO
             sortList(allPro);
     }
 
+    //Sort the list from large to small.
     public void sortList(List<Province> pros)
     {
         Comparator sorting = new Comparator<Province>()

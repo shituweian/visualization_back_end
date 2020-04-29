@@ -3,6 +3,12 @@ package scc212.api_server.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Used to save JSON data
+ * @ Author Tian Yu
+ * @ Date 2020.04.11
+ */
+
 public class ProHistory
 {
     private String enName;

@@ -1,5 +1,11 @@
 package scc212.api_server.Entity;
 
+/**
+ * Used to save JSON data
+ * @ Author Tian Yu
+ * @ Date 2020.04.01
+ */
+
 public class Nation
 {
     private String nameCN; //Chinese name

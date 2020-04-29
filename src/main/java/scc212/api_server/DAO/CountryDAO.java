@@ -20,7 +20,6 @@ public class CountryDAO {
     private String sql = null;
     private String country_name;
     private String country_name_en;
-    //private Country queriedCountry = new Country();
     private List<Country> allCountry = new ArrayList<Country>();
 
     public CountryDAO(){
@@ -45,12 +44,8 @@ public class CountryDAO {
     public void access() {
 
 
-        if (input.equals("all") == false) {
-/*
-            sql = "select english_name from country_english where short_name = '" + input
-                    + "' or chinese_name = '" + input + "' or english_name = '" + input + "'";
-            country_name_en = jdbcTemplate.queryForObject(sql, String.class);
-*/
+        if (input.equals("all") == false)
+        {
             sql = "select chinese_name from country_english  where short_name = '" + input
                     + "' or chinese_name = '" + input + "' or english_name = '" + input + "'";
             country_name = jdbcTemplate.queryForObject(sql, String.class);

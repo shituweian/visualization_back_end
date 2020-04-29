@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-This class aims to return the Medical Comments stored in MedicalComments.
-Note that different paragraphs are stored in different index of String array.
-Developer: Tian Yu 17722024
-At 2020.04.11.
+@ Intro: This class aims to return the Medical Comments stored in MedicalComments.
+         Note that different paragraphs are stored in different index of String array.
+@ Author: Tian Yu 17722024
+@ Date: 2020.04.11.
  */
 
 public class MedicalCommentsDAO

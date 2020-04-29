@@ -11,10 +11,9 @@ import scc212.api_server.Entity.CurrentNewsBean;
 import scc212.api_server.Tools.TransApi;
 
 /*
-This class is the data access object for the current news of COVID-19.
-Write the data into buffer, if cannot return data, read data from buffer.
-Developer: Tian Yu 17722024
-At 2020.04.18
+@ Intro: This class is the data access object for the current news of COVID-19.
+@ Author: Tian Yu 17722024
+@ Date: 2020.04.18
  */
 
 public class CurrentNewsDAO

@@ -1,5 +1,11 @@
 package scc212.api_server.Entity;
 
+/**
+ * Used to save JSON data
+ * @ Author Tian Yu
+ * @ Date 2020.04.03
+ */
+
 public class CityBean
 {
     private String cityNameEn;

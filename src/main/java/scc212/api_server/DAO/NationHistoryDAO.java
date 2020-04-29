@@ -5,6 +5,12 @@ import scc212.api_server.Entity.NationHistory;
 
 import java.util.*;
 
+/*
+@ Intro: This class aims to return the data of history China
+@ Author: Tian Yu 17722024
+@ Date: 202004.03
+ */
+
 public class NationHistoryDAO
 {
     private JdbcTemplate jdbcTemplate;

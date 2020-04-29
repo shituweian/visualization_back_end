@@ -1,5 +1,11 @@
 package scc212.api_server.Entity;
 
+/**
+ * Used to save JSON data
+ * @ Author Tian Yu
+ * @ Date 2020.04.09
+ */
+
 public class NationHistory
 {
     private String date;

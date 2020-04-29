@@ -6,13 +6,19 @@ import scc212.api_server.Entity.ProHistoryBean;
 
 import java.util.*;
 
+/*
+@ Intro: This class aims to return history data for all provinces (one day or all days)
+@ Author: Tian Yu 17722024
+@ Data: 2020.03.30
+ */
+
 public class ProHistoryDAO
 {
     private JdbcTemplate jdbcTemplate;
     private String paraPro;
     private String paraDate;
     private String paraLan;
-    private String sql = null; //查询id，中英文名
+    private String sql = null;
     private String mysql = null;
     private String proNumber = null;
     private String enName = null;
@@ -40,7 +46,6 @@ public class ProHistoryDAO
         return_list.setEnName(enName);
         return_list.setProId(proNumber);
         return_list.setCnName(cnName);
-        System.out.println(paraDate);
         if(this.paraDate.equals("all") == false)
             mysql = "SELECT *  FROM history" +" WHERE date_id = '" + paraDate + "' AND location_id = '" + proNumber + "'";
         else if(this.paraDate.equals("all") == true)
@@ -50,6 +55,7 @@ public class ProHistoryDAO
         return_list.setPros(provinces);
     }
 
+    //Process json data
     public void queryData(List<Map<String, Object>> list)
     {
         for (Map<String, Object> map : list)

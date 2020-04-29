@@ -21,7 +21,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*
+@ Intro: A translation tool use Sogo translation API.
+@ Author: Tian Yu
+@ Date: 2020.04.20
+ */
 
 public class TransApi
 {

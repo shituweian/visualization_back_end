@@ -13,6 +13,14 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 import java.util.*;
 
+/*
+@ Intro: Returns the data of cities in each provinces
+         Use of pinyin4j.jar as a translation tool.
+         Some of city names cannot be translated correctly, so I translated them manually.
+@ Author: Tia Yu
+@ Date: 2020.04.02
+ */
+
 public class ProvinceWithCitiesDAO
 {
     private JdbcTemplate jdbcTemplate;

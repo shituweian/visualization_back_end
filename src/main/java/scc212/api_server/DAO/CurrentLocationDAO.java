@@ -11,11 +11,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /*
-This class invoke the Baidu IP-location API, used for return the client's current location.
-Using IP to get location means it may not 100% correctly.
-Because Baidu IP-location API does not support the ip address from oversea, which means can oly get location for users in Cina.
-Therefore, if client's ip is not belongs to China, the locator will fail.
-Developed by Tian Yu 17722024 on 2020-04-10
+@ Intro: This class invoke the Baidu IP-location API, used for return the client's current location.
+         Using IP to get location means it may not 100% correctly.
+         Because Baidu IP-location API does not support the ip address from oversea, which means can oly get location for users in Cina.
+         Therefore, if client's ip is not belongs to China, the locator will fail.
+@ Author: Tian Yu 17722024
+@ Date: 2020.04.18
  */
 
 public class CurrentLocationDAO
@@ -104,7 +105,6 @@ public class CurrentLocationDAO
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(result);
         return result;
     }
 

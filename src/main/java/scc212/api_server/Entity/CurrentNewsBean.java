@@ -2,6 +2,12 @@ package scc212.api_server.Entity;
 
 import java.util.ArrayList;
 
+/**
+ * Used to save JSON data
+ * @ Author Tian Yu
+ * @ Date 2020.04.18
+ */
+
 public class CurrentNewsBean
 {
     private int id;

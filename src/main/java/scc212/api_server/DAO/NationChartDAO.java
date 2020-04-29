@@ -11,7 +11,10 @@ import java.util.Date;
 import java.util.List;
 
 /*
-This class aims to return the Apis for drawing the charts in javascript.
+@ Intro: This class aims to return the Apis for drawing the charts in javascript.
+         Process data in backends.
+@ Author: Tian Yu 17722024
+@ Date: 2020.04.03
  */
 
 public class NationChartDAO

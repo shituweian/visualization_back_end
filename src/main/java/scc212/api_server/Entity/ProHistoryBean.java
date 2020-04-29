@@ -1,8 +1,10 @@
 package scc212.api_server.Entity;
 
 
-/*
-The class is the entity class of the history data of a province.
+/**
+ * Used to save JSON data
+ * @ Author Tian Yu
+ * @ Date 2020.04.10
  */
 public class ProHistoryBean
 {
