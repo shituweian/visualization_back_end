@@ -6,9 +6,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.*;
 import scc212.api_server.Entity.NationHistory;
+import scc212.api_server.Entity.ObjectWithYear;
+import scc212.api_server.Entity.Objects;
+import scc212.api_server.Entity.Years;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = {"*","null"})
@@ -19,60 +27,105 @@ public class Controller {
     public Controller() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://112.125.95.205:3306/covid_19?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/comp7014adb?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
         dataSource.setUsername("root");
-        dataSource.setPassword("2020");
+        dataSource.setPassword("0611");
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    // >>> World API Part
-    @RequestMapping("/get/Country")
-    public List getCountry(@RequestParam(value = "country" , required = false, defaultValue = "all") String name) {
-        CountryDAO country = new CountryDAO();
-        country.reset();
-        country.setInput(name);
-        country.setJdbc(this.jdbcTemplate);
-        country.access();
-        return country.getCountry();
+    @RequestMapping("/cars/getAllCars")
+    public List getAllCars() {
+        String csvFile = "./dataset/allCarBrands.csv";
+        String line = "";
+        String cvsSplitBy = ",";
+        List result = new ArrayList();
+        List overview = new ArrayList();
+        List yearly = new ArrayList();
+        List allYears = new ArrayList();
+
+        int num = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+
+            while ((line = br.readLine()) != null) {
+                if (num == 0) {
+                    num++;
+                    continue;
+                }
+                // use comma as separator
+                String[] entity = line.split(",");
+                Objects one = new Objects();
+                one.setName(entity[0].substring(1, entity[0].length() - 1));
+                one.setValue(Integer.parseInt(entity[1].substring(1, entity[1].length() - 1)));
+                overview.add(one);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String yearlyData = "./dataset/yearlyCars.csv";
+        String lines = "";
+        num = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(yearlyData))) {
+
+            while ((lines = br.readLine()) != null)
+            {
+                if (num == 0)
+                {
+                    num++;
+                    continue;
+                }
+                String[] entity = lines.split(",");
+                ObjectWithYear one = new ObjectWithYear();
+                one.setName(entity[0].substring(1, entity[0].length() - 1));
+                one.setValue(Integer.parseInt(entity[1].substring(1, entity[1].length() - 1)));
+                one.setYear(Integer.parseInt(entity[2].substring(1, entity[2].length() - 1)));
+                yearly.add(one);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String years = "./dataset/allYears.csv";
+        String lineYears = "";
+        num = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(years))) {
+
+            while ((lineYears = br.readLine()) != null)
+            {
+                if (num == 0)
+                {
+                    num++;
+                    continue;
+                }
+                String[] entity = lineYears.split(",");
+                System.out.println(entity[1]);
+                Years one = new Years();
+                one.setValue(Integer.parseInt(entity[0]));
+                one.setYear(Integer.parseInt(entity[1]));
+                allYears.add(one);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        result.add(overview);
+        result.add(yearly);
+        result.add(allYears);
+        return result;
     }
 
-    @RequestMapping("/get/WorldHistory")
-    public List getWorldHistory(@RequestParam(value = "country" , required = false, defaultValue = "all") String name,
-                                @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
-                                @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
-                                @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
-        WorldHistoryDAO worldHistory = new WorldHistoryDAO();
-        worldHistory.reset();
-        worldHistory.setInput(name);
-        worldHistory.setDate(inputDate);
-        worldHistory.setStartDate(startDate);
-        worldHistory.setEndDate(endDate);
-        worldHistory.setJdbc(this.jdbcTemplate);
-        worldHistory.access();
-        return worldHistory.getCountry();
-    }
-    @RequestMapping("/get/WorldHistorySum")
-    public List getWorldHistorySum(@RequestParam(value = "name" , required = false, defaultValue = "all") String name,
-                                   @RequestParam(value = "date", required = false, defaultValue = "all") String inputDate,
-                                   @RequestParam(value = "startDate", required = false, defaultValue = "none") String startDate,
-                                   @RequestParam(value = "endDate", required = false, defaultValue = "none") String endDate) {
-
-        WorldHistorySumDAO worldHistorySum = new WorldHistorySumDAO();
-        worldHistorySum.reset();
-        worldHistorySum.setInput(name);
-        worldHistorySum.setDate(inputDate);
-        worldHistorySum.setStartDate(startDate);
-        worldHistorySum.setEndDate(endDate);
-        worldHistorySum.setJdbc(this.jdbcTemplate);
-        worldHistorySum.access();
-        return worldHistorySum.getData();
-    }
-    // >>> The end of World API Part
 
 
-    /*
-    APIs of China
-     */
+
+
+
+
+
+
+
+
+
 
     //Get the information for provinces in China, can choose one or all provinces
     @RequestMapping("/get/CurrentProInfo")
@@ -85,6 +138,13 @@ public class Controller {
         currentPro.access();
         return currentPro.getPor();
     }
+
+    @RequestMapping("/hello")
+    public String getString()
+    {
+        return "123";
+    }
+
 
     @RequestMapping(value = "/get/getProHistoryData")
     public Object getHistoryData(@RequestParam(value = "proName") String name,
@@ -207,13 +267,4 @@ public class Controller {
         return newsDAO.getCurNewsList();
     }
 
-
-    @RequestMapping("/Knowledge")
-    public List getKnowledge()
-    {
-        KnowledgeDAO knowledge = new KnowledgeDAO();
-        knowledge.reset();
-        knowledge.access();
-        return knowledge.getReturn_list();
-    }
 }
