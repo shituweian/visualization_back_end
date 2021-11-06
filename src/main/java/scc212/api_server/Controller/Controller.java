@@ -61,6 +61,7 @@ public class Controller {
                 overview.add(one);
             }
         }
+        System.out.println("Hello");
         String sqlAllYearCars = "SELECT * FROM allYearsBrand";
         List<Map<String, Object>> listYearCars =  this.jdbcTemplate.queryForList(sqlAllYearCars);
         for (Map<String, Object> map : listYearCars)
