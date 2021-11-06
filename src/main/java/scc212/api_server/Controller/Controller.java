@@ -26,9 +26,9 @@ public class Controller {
     public Controller() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/comp7014adb?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true");
+        dataSource.setUrl("jdbc:mysql://8.218.186.230:3306/visualizationdb?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("0611");
+        dataSource.setPassword("gaoshiji111");
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
