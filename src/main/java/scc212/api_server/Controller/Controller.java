@@ -62,29 +62,33 @@ public class Controller {
             }
         }
         System.out.println("Hello World");
-        String sqlAllYearCars = "SELECT * FROM allYearsBrand";
-        List<Map<String, Object>> listYearCars =  this.jdbcTemplate.queryForList(sqlAllYearCars);
-        for (Map<String, Object> map : listYearCars)
+        String yearlyCars = "SELECT * FROM yearlyCars GROUP BY year, name ORDER BY year ASC";
+        List<Map<String, Object>> yeaylyList =  this.jdbcTemplate.queryForList(yearlyCars);
+        for (Map<String, Object> map : yeaylyList)
         {
             Set<Map.Entry<String, Object>> entries = map.entrySet();
-            if (entries != null) {
+            if (entries != null)
+            {
                 Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
-                Years one = new Years();
+                ObjectWithYear one = new ObjectWithYear();
                 while (iterator.hasNext())
                 {
                     Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
                     String value = entry.getValue().toString();
+                    if(entry.getKey().equals("name"))
+                        one.setName(value);
                     if(entry.getKey().toString().equals("value"))
                         one.setValue(Integer.parseInt(value));
                     else if(entry.getKey().toString().equals("year"))
                         one.setYear(Integer.parseInt(value));
                 }
-                allYears.add(one);
+                yearly.add(one);
             }
         }
+
+
         result.add(overview);
         result.add(yearly);
-        result.add(allYears);
         return result;
     }
 
