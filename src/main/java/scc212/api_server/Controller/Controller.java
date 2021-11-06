@@ -16,8 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin(origins = {"*","null"})
 @RestController
@@ -34,84 +33,87 @@ public class Controller {
     }
 
     @RequestMapping("/cars/getAllCars")
-    public List getAllCars() {
-        String csvFile = "./dataset/allCarBrands.csv";
-        String line = "";
-        String cvsSplitBy = ",";
+    public List getAllCars()
+    {
         List result = new ArrayList();
         List overview = new ArrayList();
         List yearly = new ArrayList();
         List allYears = new ArrayList();
 
-        int num = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
-            while ((line = br.readLine()) != null) {
-                if (num == 0) {
-                    num++;
-                    continue;
-                }
-                // use comma as separator
-                String[] entity = line.split(",");
+        String sqlOverview = "SELECT * FROM allcarbrands";
+        List<Map<String, Object>> listOverview =  this.jdbcTemplate.queryForList(sqlOverview);
+        for (Map<String, Object> map : listOverview)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
                 Objects one = new Objects();
-                one.setName(entity[0].substring(1, entity[0].length() - 1));
-                one.setValue(Integer.parseInt(entity[1].substring(1, entity[1].length() - 1)));
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        one.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        one.setValue(Integer.parseInt(value));
+                }
                 overview.add(one);
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-        String yearlyData = "./dataset/yearlyCars.csv";
-        String lines = "";
-        num = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(yearlyData))) {
-
-            while ((lines = br.readLine()) != null)
-            {
-                if (num == 0)
-                {
-                    num++;
-                    continue;
-                }
-                String[] entity = lines.split(",");
-                ObjectWithYear one = new ObjectWithYear();
-                one.setName(entity[0].substring(1, entity[0].length() - 1));
-                one.setValue(Integer.parseInt(entity[1].substring(1, entity[1].length() - 1)));
-                one.setYear(Integer.parseInt(entity[2].substring(1, entity[2].length() - 1)));
-                yearly.add(one);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String years = "./dataset/allYears.csv";
-        String lineYears = "";
-        num = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(years))) {
-
-            while ((lineYears = br.readLine()) != null)
-            {
-                if (num == 0)
-                {
-                    num++;
-                    continue;
-                }
-                String[] entity = lineYears.split(",");
-                System.out.println(entity[1]);
+        String sqlAllYearCars = "SELECT * FROM allYearsBrand";
+        List<Map<String, Object>> listYearCars =  this.jdbcTemplate.queryForList(sqlAllYearCars);
+        for (Map<String, Object> map : listYearCars)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null) {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
                 Years one = new Years();
-                one.setValue(Integer.parseInt(entity[0]));
-                one.setYear(Integer.parseInt(entity[1]));
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("value"))
+                        one.setValue(Integer.parseInt(value));
+                    else if(entry.getKey().toString().equals("year"))
+                        one.setYear(Integer.parseInt(value));
+                }
                 allYears.add(one);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         result.add(overview);
         result.add(yearly);
         result.add(allYears);
+        return result;
+    }
+
+    @RequestMapping("/cars/getCarsByYear")
+    public List getYearlyCars()
+    {
+        List result = new ArrayList();
+        String yearlyCars = "SELECT name, value, year FROM yearlyCars GROUP BY year, name";
+        List<Map<String, Object>> yeaylyList =  this.jdbcTemplate.queryForList(yearlyCars);
+        for (Map<String, Object> map : yeaylyList)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                ObjectWithYear one = new ObjectWithYear();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().equals("name"))
+                        one.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        one.setValue(Integer.parseInt(value));
+                    else if(entry.getKey().toString().equals("year"))
+                        one.setYear(Integer.parseInt(value));
+                }
+                result.add(one);
+            }
+        }
         return result;
     }
 
