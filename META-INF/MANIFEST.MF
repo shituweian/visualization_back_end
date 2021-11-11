@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: scc212.api_server.ApiServerApplication
+Main-Class: comp7507.api_server.ApiServerApplication
 Class-Path: spring-boot-starter-validation-2.2.5.RELEASE.jar commons-cod
  ec-1.13.jar jackson-module-parameter-names-2.10.2.jar spring-expression
  -5.2.4.RELEASE.jar spring-boot-autoconfigure-2.2.5.RELEASE.jar spring-b

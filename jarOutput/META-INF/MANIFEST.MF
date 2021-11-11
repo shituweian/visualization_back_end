@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: scc212.api_server.ApiServerApplication
+Main-Class: comp7507.api_server.ApiServerApplication
 Class-Path: spring-beans-5.2.4.RELEASE.jar jackson-core-2.10.2.jar jul-t
  o-slf4j-1.7.30.jar spring-aop-5.2.4.RELEASE.jar jakarta.validation-api-
  2.0.2.jar spring-boot-2.2.5.RELEASE.jar snakeyaml-1.25.jar spring-boot-
