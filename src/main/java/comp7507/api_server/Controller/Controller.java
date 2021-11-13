@@ -1,15 +1,13 @@
 package comp7507.api_server.Controller;
 
 import comp7507.api_server.DAO.*;
-import comp7507.api_server.Entity.DayOfWeekandTime;
-import comp7507.api_server.Entity.ObjectWithYear;
+import comp7507.api_server.Entity.*;
 import comp7507.api_server.DAO.*;
 
+import comp7507.api_server.Entity.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.*;
-import comp7507.api_server.Entity.NationHistory;
-import comp7507.api_server.Entity.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
@@ -149,6 +147,412 @@ public class Controller {
 
 
 
+
+
+    @RequestMapping("/calendarData")
+    public List getCalendarData()
+    {
+        List result = new ArrayList();
+        List daylyTotalAccident = new ArrayList();
+        List daylyLight = new ArrayList();
+        List daylyRoad = new ArrayList();
+        List dalyWeather = new ArrayList();
+
+
+        int curMonth = 0;
+        int curYear = 2005;
+        List oneMonth = new ArrayList();
+        List oneYear = new ArrayList();
+
+        // Get the per day's total accidents
+        String sql = "SELECT Date, total, Year FROM calendar_data";
+        List<Map<String, Object>> queryTotal =  this.jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> map : queryTotal)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                CalendarPieElement pieElement = new CalendarPieElement();
+                List oneDayValue = new ArrayList();
+                int count = 0;
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("Date"))
+                    {
+                        count++;
+                        String curDate = value;
+                        int entryMon = Integer.parseInt(curDate.split("-")[1]);
+                        if(curMonth != entryMon)
+                        {
+                            if(curMonth != 0)
+                                oneYear.add(oneMonth);
+                            oneMonth = new ArrayList();
+                            curMonth = entryMon;
+                        }
+                        oneDayValue.add(value);
+                        if(curMonth == 12 && curYear == 2015 && Integer.parseInt(curDate.split("-")[2]) == 31)
+                        {
+                            oneYear.add(oneMonth);
+                            daylyTotalAccident.add(oneYear);
+                        }
+                    }
+                    if(entry.getKey().toString().equals("total"))
+                    {
+                        count++;
+                        oneDayValue.add(Integer.parseInt(value));
+                    }
+                    if(entry.getKey().toString().equals("Year"))
+                    {
+                        count++;
+                        int enrtyYear = Integer.parseInt(value);
+                        // System.out.println(enrtyYear);
+                        if(curYear != enrtyYear)
+                        {
+                            daylyTotalAccident.add(oneYear);
+                            oneYear = new ArrayList();
+                            curYear = enrtyYear;
+                        }
+                    }
+                    if(count == 3)
+                    {
+                        oneMonth.add(oneDayValue);
+                        count = 0;
+                    }
+                }
+
+            }
+            // daylyTotalAccident.add(oneYearAccident);
+        }
+
+        curMonth = 0;
+        curYear = 2005;
+        oneMonth = new ArrayList();
+        oneYear = new ArrayList();
+        String lightSql = "SELECT Date, Year, Daylight, Darkness_lights_lit, Darkness_lights_unlit, " +
+                "Darkness_no_lighting, Darkness_lighting_unknown, Missing_light FROM calendar_data";
+        List<Map<String, Object>> queryLight =  this.jdbcTemplate.queryForList(lightSql);
+
+        for (Map<String, Object> map : queryLight)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                List oneDayValue = new ArrayList();
+                List oneDayPie = new ArrayList();
+                CalendarOverall calendars = new CalendarOverall();
+                int count = 0;
+                int weakLightValue = 0;
+                int weakLightNumber = 0;
+                int noLightValue = 0;
+                int noLightNumber = 0;
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("Date"))
+                    {
+                        String curDate = value;
+                        int entryMon = Integer.parseInt(curDate.split("-")[1]);
+                        if(curMonth != entryMon)
+                        {
+                            if(curMonth != 0)
+                                oneYear.add(oneMonth);
+                            oneMonth = new ArrayList();
+                            curMonth = entryMon;
+                        }
+                        // oneDayValue.add(value);
+                        if(curMonth == 12 && curYear == 2015 && Integer.parseInt(curDate.split("-")[2]) == 31)
+                        {
+                            oneYear.add(oneMonth);
+                            daylyLight.add(oneYear);
+                        }
+                    }
+                    if(entry.getKey().toString().equals("Daylight"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Daylight");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Darkness_lights_lit") ||
+                            entry.getKey().toString().equals("Darkness_lights_unlit"))
+                    {
+                        weakLightNumber++;
+                        weakLightValue += Integer.parseInt(value);
+                        if(weakLightNumber == 2)
+                        {
+                            CalendarPieElement pieElement = new CalendarPieElement();
+                            pieElement.setName("Weak light");
+                            pieElement.setValue(weakLightValue);
+                            oneDayPie.add(pieElement);
+                        }
+                    }
+                    if(entry.getKey().toString().equals("Darkness_no_lighting") || entry.getKey().toString().equals("Darkness_lighting_unknown")
+                            || entry.getKey().toString().equals("Missing_light"))
+                    {
+                        noLightNumber++;
+                        noLightValue += Integer.parseInt(value);
+                        if(noLightNumber == 3)
+                        {
+                            CalendarPieElement pieElement = new CalendarPieElement();
+                            pieElement.setName("No light");
+                            pieElement.setValue(noLightValue);
+                            oneDayPie.add(pieElement);
+                            noLightNumber = 0;
+                            noLightValue = 0;
+                        }
+                    }
+
+                    if(entry.getKey().toString().equals("Year"))
+                    {
+                        count++;
+                        int enrtyYear = Integer.parseInt(value);
+                        if(curYear != enrtyYear)
+                        {
+                            daylyLight.add(oneYear);
+                            oneYear = new ArrayList();
+                            curYear = enrtyYear;
+                        }
+                    }
+                }
+                calendars.setData(oneDayPie);
+                // oneDayValue.add(calendars);
+                oneMonth.add(calendars);
+
+            }
+            // daylyTotalAccident.add(oneYearAccident);
+        }
+
+
+        curMonth = 0;
+        curYear = 2005;
+        oneMonth = new ArrayList();
+        oneYear = new ArrayList();
+        String roadSql = "SELECT Date, Year, Dry, Wet_or_damp as Damp, Frost_or_ice as Frost, " +
+                "Snow, Flood_over_3cm_deep as Flood FROM calendar_data";
+        List<Map<String, Object>> queryRoad =  this.jdbcTemplate.queryForList(roadSql);
+        for (Map<String, Object> map : queryRoad)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                List oneDayValue = new ArrayList();
+                List oneDayPie = new ArrayList();
+                CalendarOverall calendars = new CalendarOverall();
+                int count = 0;
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("Date"))
+                    {
+                        count++;
+                        String curDate = value;
+                        int entryMon = Integer.parseInt(curDate.split("-")[1]);
+                        if(curMonth != entryMon)
+                        {
+                            if(curMonth != 0)
+                                oneYear.add(oneMonth);
+                            oneMonth = new ArrayList();
+                            curMonth = entryMon;
+                        }
+                        // oneDayValue.add(value);
+                        if(curMonth == 12 && curYear == 2015 && Integer.parseInt(curDate.split("-")[2]) == 31)
+                        {
+                            oneYear.add(oneMonth);
+                            daylyLight.add(oneYear);
+                        }
+                    }
+                    if(entry.getKey().toString().equals("Damp"))
+                    {
+                        count++;
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Damp");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Dry"))
+                    {
+                        count++;
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Dry");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Frost"))
+                    {
+                        count++;
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Frost");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Snow"))
+                    {
+                        count++;
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Snow");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Flood"))
+                    {
+                        count++;
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Flood");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Year"))
+                    {
+                        count++;
+                        int enrtyYear = Integer.parseInt(value);
+                        if(curYear != enrtyYear)
+                        {
+                            daylyRoad.add(oneYear);
+                            oneYear = new ArrayList();
+                            curYear = enrtyYear;
+                        }
+                    }
+                }
+                calendars.setData(oneDayPie);
+                // oneDayValue.add(calendars);
+                oneMonth.add(calendars);
+
+            }
+            // daylyTotalAccident.add(oneYearAccident);
+        }
+
+
+        curMonth = 0;
+        curYear = 2005;
+        oneMonth = new ArrayList();
+        oneYear = new ArrayList();
+        String weatherSql = "SELECT Date, Year, Fine_no_high_winds, Raining_no_high_winds, Snowing_no_high_winds, " +
+                "Other_weather, Weather_unknow, Missing_weather, Fine_high_winds, Raining_high_winds, Fog_or_mist, Snowing_high_winds FROM calendar_data";
+        List<Map<String, Object>> queryWeather =  this.jdbcTemplate.queryForList(weatherSql);
+        for (Map<String, Object> map : queryWeather)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                List oneDayValue = new ArrayList();
+                List oneDayPie = new ArrayList();
+                CalendarOverall calendars = new CalendarOverall();
+                int count = 0;
+                int fog = 0;
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("Date"))
+                    {
+                        String curDate = value;
+                        int entryMon = Integer.parseInt(curDate.split("-")[1]);
+                        if(curMonth != entryMon)
+                        {
+                            if(curMonth != 0)
+                                oneYear.add(oneMonth);
+                            oneMonth = new ArrayList();
+                            curMonth = entryMon;
+                        }
+                        // oneDayValue.add(value);
+                        if(curMonth == 12 && curYear == 2015 && Integer.parseInt(curDate.split("-")[2]) == 31)
+                        {
+                            oneYear.add(oneMonth);
+                            daylyLight.add(oneYear);
+                        }
+                    }
+                    if(entry.getKey().toString().equals("Raining_no_high_winds"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Rain");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Fine_no_high_winds"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Fine");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Snowing_no_high_winds"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Snow");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Fine_high_winds"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("High winds");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Raining_high_winds"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Rain & high winds");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Fog_or_mist") || entry.getKey().toString().equals("Other_weather")
+                            || entry.getKey().toString().equals("Missing_weather") || entry.getKey().toString().equals("Weather_unknow"))
+                    {
+                        count++;
+                        fog += Integer.parseInt(value);
+                        if(count == 4)
+                        {
+                            CalendarPieElement pieElement = new CalendarPieElement();
+                            pieElement.setName("Fog");
+                            pieElement.setValue(fog);
+                            oneDayPie.add(pieElement);
+                            count = 0;
+                            fog = 0;
+
+                        }
+                    }
+                    if(entry.getKey().toString().equals("Snowing_high_winds"))
+                    {
+                        CalendarPieElement pieElement = new CalendarPieElement();
+                        pieElement.setName("Snow & high winds");
+                        pieElement.setValue(Integer.parseInt(value));
+                        oneDayPie.add(pieElement);
+                    }
+                    if(entry.getKey().toString().equals("Year"))
+                    {
+                        int enrtyYear = Integer.parseInt(value);
+                        if(curYear != enrtyYear)
+                        {
+                            dalyWeather.add(oneYear);
+                            oneYear = new ArrayList();
+                            curYear = enrtyYear;
+                        }
+                    }
+                }
+                calendars.setData(oneDayPie);
+                // oneDayValue.add(calendars);
+                oneMonth.add(calendars);
+
+            }
+            // daylyTotalAccident.add(oneYearAccident);
+        }
+
+        result.add(daylyTotalAccident);
+        result.add(daylyLight);
+        result.add(daylyRoad);
+        result.add(dalyWeather);
+        return result;
+    }
 
 
 
