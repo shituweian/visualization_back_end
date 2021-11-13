@@ -1,6 +1,7 @@
 package comp7507.api_server.Controller;
 
 import comp7507.api_server.DAO.*;
+import comp7507.api_server.Entity.DayOfWeekandTime;
 import comp7507.api_server.Entity.ObjectWithYear;
 import comp7507.api_server.DAO.*;
 
@@ -111,6 +112,34 @@ public class Controller {
                         one.setValue(Integer.parseInt(value));
                     else if(entry.getKey().toString().equals("year"))
                         one.setYear(Integer.parseInt(value));
+                }
+                result.add(one);
+            }
+        }
+        return result;
+    }
+
+    @RequestMapping("/dayandtime")
+    public List getdayofweekandtime(){
+        List result=new ArrayList();
+        String query="select * from dayofweek_time";
+        List<Map<String,Object>> resultList=this.jdbcTemplate.queryForList(query);
+        for(Map<String,Object> map:resultList){
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                DayOfWeekandTime one = new DayOfWeekandTime();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().equals("Day_of_week"))
+                        one.setDay(value);
+                    if(entry.getKey().toString().equals("Time"))
+                        one.setTime(value);
+                    else if(entry.getKey().toString().equals("Value"))
+                        one.setValue(Integer.parseInt(value));
                 }
                 result.add(one);
             }
