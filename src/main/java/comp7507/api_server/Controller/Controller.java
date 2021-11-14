@@ -234,7 +234,7 @@ public class Controller {
         oneYear = new ArrayList();
         String lightSql = "SELECT Date, Year, Daylight, Darkness_lights_lit, Darkness_lights_unlit, " +
                 "Darkness_no_lighting, Darkness_lighting_unknown, Missing_light FROM calendar_data";
-        List<Map<String, Object>> queryLight =  this.jdbcTemplate.queryForList(lightSql);
+        List<Map<String, Object>> queryLight = this.jdbcTemplate.queryForList(lightSql);
 
         for (Map<String, Object> map : queryLight)
         {
@@ -331,8 +331,8 @@ public class Controller {
 
         curMonth = 0;
         curYear = 2005;
-        oneMonth = new ArrayList();
-        oneYear = new ArrayList();
+        List oneMonth1 = new ArrayList();
+        List oneYear1 = new ArrayList();
         String roadSql = "SELECT Date, Year, Dry, Wet_or_damp as Damp, Frost_or_ice as Frost, " +
                 "Snow, Flood_over_3cm_deep as Flood FROM calendar_data";
         List<Map<String, Object>> queryRoad =  this.jdbcTemplate.queryForList(roadSql);
@@ -342,7 +342,6 @@ public class Controller {
             if (entries != null)
             {
                 Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
-                List oneDayValue = new ArrayList();
                 List oneDayPie = new ArrayList();
                 CalendarOverall calendars = new CalendarOverall();
                 int count = 0;
@@ -358,15 +357,15 @@ public class Controller {
                         if(curMonth != entryMon)
                         {
                             if(curMonth != 0)
-                                oneYear.add(oneMonth);
-                            oneMonth = new ArrayList();
+                                oneYear1.add(oneMonth1);
+                            oneMonth1 = new ArrayList();
                             curMonth = entryMon;
                         }
                         // oneDayValue.add(value);
                         if(curMonth == 12 && curYear == 2015 && Integer.parseInt(curDate.split("-")[2]) == 31)
                         {
-                            oneYear.add(oneMonth);
-                            daylyLight.add(oneYear);
+                            oneYear1.add(oneMonth1);
+                            daylyRoad.add(oneYear1);
                         }
                     }
                     if(entry.getKey().toString().equals("Damp"))
@@ -415,15 +414,15 @@ public class Controller {
                         int enrtyYear = Integer.parseInt(value);
                         if(curYear != enrtyYear)
                         {
-                            daylyRoad.add(oneYear);
-                            oneYear = new ArrayList();
+                            daylyRoad.add(oneYear1);
+                            oneYear1 = new ArrayList();
                             curYear = enrtyYear;
                         }
                     }
                 }
                 calendars.setData(oneDayPie);
                 // oneDayValue.add(calendars);
-                oneMonth.add(calendars);
+                oneMonth1.add(calendars);
 
             }
             // daylyTotalAccident.add(oneYearAccident);
@@ -467,7 +466,7 @@ public class Controller {
                         if(curMonth == 12 && curYear == 2015 && Integer.parseInt(curDate.split("-")[2]) == 31)
                         {
                             oneYear.add(oneMonth);
-                            daylyLight.add(oneYear);
+                            dalyWeather.add(oneYear);
                         }
                     }
                     if(entry.getKey().toString().equals("Raining_no_high_winds"))
@@ -552,6 +551,195 @@ public class Controller {
         result.add(daylyRoad);
         result.add(dalyWeather);
         return result;
+    }
+
+    @RequestMapping("/Acc/getDailyAcc")
+    public List getDailyAcc()
+    {
+        List result = new ArrayList();
+        List daylyTotalAccident = new ArrayList();
+
+
+
+        int curMonth = 0;
+        int curYear = 0;
+        List oneMonth = new ArrayList();
+        List oneYear = new ArrayList();
+
+        // Get the per day's total accidents
+        String sql = "SELECT a_year, a_month, zero_to_two, two_to_four,four_to_six,six_to_eight,eight_to_ten," +
+                "ten_to_twelve,twelve_to_fourteen,fourteen_to_sixteen, sixteen_to_eighteen," +
+                "eighteen_to_twenty,twenty_to_twentytwo, twentytwo_to_twentyfour FROM timeline";
+        List<Map<String, Object>> queryTotal =  this.jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> map : queryTotal)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                List oneDayValue = new ArrayList();
+                // Objectwithday oneDay = new Objectwithday();
+                int count = 0;
+                int year=0;
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+
+                    if(entry.getKey().toString().equals("a_month"))
+                    {
+                        // count++;
+                        String curMon = value;
+                        int entryMon = Integer.parseInt(curMon);
+                        if(curMonth != entryMon)
+                        {
+                            if(curMonth != 0)
+                                oneYear.add(oneMonth);
+                            oneMonth = new ArrayList();
+                            curMonth = entryMon;
+                        }
+                        // oneDayValue.add(value);
+                        if(curMonth == 12 && curYear == 2015 && count == 12)
+                        {
+                            count = 0;
+                            oneYear.add(oneMonth);
+                            daylyTotalAccident.add(oneYear);
+                        }
+                    }
+                    if(entry.getKey().toString().equals("zero_to_two"))
+                    {
+                        count++;
+                        // System.out.println(value);
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("two_to_four"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("four_to_six"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("six_to_eight"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("eight_to_ten"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("ten_to_twelve"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("twelve_to_fourteen"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("fourteen_to_sixteen"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+
+                    if(entry.getKey().toString().equals("sixteen_to_eighteen"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("eighteen_to_twenty"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("twenty_to_twentytwo"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("twentytwo_to_twentyfour"))
+                    {
+                        count++;
+                        Objects one = new Objects();
+                        one.setName(entry.getKey().toString());
+                        one.setValue(Integer.parseInt(value));
+
+                        oneMonth.add(one);
+                    }
+                    if(entry.getKey().toString().equals("a_year"))
+                    {
+                        // count++;
+                        int enrtyYear = Integer.parseInt(value);
+                        // accident_dailyaccident_daily;
+                        if(curYear != enrtyYear)
+                        {
+                            if(curYear != 0)
+                            {
+                                System.out.println(curYear + " " + curMonth);
+                                daylyTotalAccident.add(oneYear);
+                            }
+                            oneYear = new ArrayList();
+                            curYear = enrtyYear;
+                        }
+                    }
+                }
+                //oneDayValue.add(one);
+            }
+            // daylyTotalAccident.add(oneYearAccident);
+        }
+
+
+        // result.add(daylyTotalAccident);
+        return daylyTotalAccident;
     }
 
 
