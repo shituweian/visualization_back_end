@@ -553,6 +553,301 @@ public class Controller {
         return result;
     }
 
+    @RequestMapping("/mapData")
+    public List getMapData()
+    {
+        List result = new ArrayList();
+        List total = new ArrayList();
+        List y_05 = new ArrayList();
+        List y_06 = new ArrayList();
+        List y_07 = new ArrayList();
+        List y_08 = new ArrayList();
+        List y_09 = new ArrayList();
+        List y_10 = new ArrayList();
+        List y_11 = new ArrayList();
+        List y_12 = new ArrayList();
+        List y_13 = new ArrayList();
+        List y_14 = new ArrayList();
+        List y_15 = new ArrayList();
+        String mapSqlTotal = "SELECT Location as name, num as value FROM mapdata";
+        List<Map<String, Object>> queryTotal =  this.jdbcTemplate.queryForList(mapSqlTotal);
+        for (Map<String, Object> map : queryTotal)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                total.add(oneCity);
+            }
+        }
+
+        String mapSql05 = "SELECT Location as name, y_05 as value FROM mapdata";
+        List<Map<String, Object>> query05 =  this.jdbcTemplate.queryForList(mapSql05);
+        for (Map<String, Object> map : query05)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_05.add(oneCity);
+            }
+        }
+
+        String mapSql06 = "SELECT Location as name, y_06 as value FROM mapdata";
+        List<Map<String, Object>> query06 =  this.jdbcTemplate.queryForList(mapSql06);
+        for (Map<String, Object> map : query06)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_06.add(oneCity);
+            }
+        }
+
+        String mapSql07 = "SELECT Location as name, y_07 as value FROM mapdata";
+        List<Map<String, Object>> query07 =  this.jdbcTemplate.queryForList(mapSql07);
+        for (Map<String, Object> map : query07)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_07.add(oneCity);
+            }
+        }
+
+        String mapSql08 = "SELECT Location as name, y_08 as value FROM mapdata";
+        List<Map<String, Object>> query08 =  this.jdbcTemplate.queryForList(mapSql08);
+        for (Map<String, Object> map : query08)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_08.add(oneCity);
+            }
+        }
+
+        String mapSql09 = "SELECT Location as name, y_09 as value FROM mapdata";
+        List<Map<String, Object>> query09 =  this.jdbcTemplate.queryForList(mapSql09);
+        for (Map<String, Object> map : query09)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_09.add(oneCity);
+            }
+        }
+
+        String mapSql10 = "SELECT Location as name, y_10 as value FROM mapdata";
+        List<Map<String, Object>> query10 =  this.jdbcTemplate.queryForList(mapSql10);
+        for (Map<String, Object> map : query10)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_10.add(oneCity);
+            }
+        }
+
+        String mapSql11 = "SELECT Location as name, y_11 as value FROM mapdata";
+        List<Map<String, Object>> query11 =  this.jdbcTemplate.queryForList(mapSql11);
+        for (Map<String, Object> map : query11)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_11.add(oneCity);
+            }
+        }
+
+        String mapSql12 = "SELECT Location as name, y_12 as value FROM mapdata";
+        List<Map<String, Object>> query12 =  this.jdbcTemplate.queryForList(mapSql12);
+        for (Map<String, Object> map : query12)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_12.add(oneCity);
+            }
+        }
+
+        String mapSql13 = "SELECT Location as name, y_13 as value FROM mapdata";
+        List<Map<String, Object>> query13 =  this.jdbcTemplate.queryForList(mapSql13);
+        for (Map<String, Object> map : query13)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_13.add(oneCity);
+            }
+        }
+
+        String mapSql14 = "SELECT Location as name, y_14 as value FROM mapdata";
+        List<Map<String, Object>> query14 =  this.jdbcTemplate.queryForList(mapSql14);
+        for (Map<String, Object> map : query14)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_14.add(oneCity);
+            }
+        }
+
+        String mapSql15 = "SELECT Location as name, y_15 as value FROM mapdata";
+        List<Map<String, Object>> query15 =  this.jdbcTemplate.queryForList(mapSql15);
+        for (Map<String, Object> map : query07)
+        {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                Objects oneCity = new Objects();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().toString().equals("name"))
+                        oneCity.setName(value);
+                    if(entry.getKey().toString().equals("value"))
+                        oneCity.setValue(Integer.parseInt(value));
+                }
+                y_15.add(oneCity);
+            }
+        }
+        result.add(total);
+        result.add(y_05);
+        result.add(y_06);
+        result.add(y_07);
+        result.add(y_08);
+        result.add(y_09);
+        result.add(y_10);
+        result.add(y_11);
+        result.add(y_12);
+        result.add(y_13);
+        result.add(y_14);
+        result.add(y_15);
+        return result;
+    }
+
+
     @RequestMapping("/Acc/getDailyAcc")
     public List getDailyAcc()
     {
