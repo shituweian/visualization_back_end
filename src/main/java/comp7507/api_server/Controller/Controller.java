@@ -1063,43 +1063,56 @@ public class Controller {
                 List childrenTrucks = new ArrayList();
                 List childrenScooter = new ArrayList();
                 List oneYear = new ArrayList();
+                List oneYearTotal = new ArrayList();
 
                 while (iterator.hasNext())
                 {
                     Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
                     String value = entry.getValue().toString();
                     if(entry.getKey().toString().equals("MOTORCYCLE"))
+                    {
                         motor.setName("Motorcycle");
+                        Objects one = new Objects();
+                        one.setName("Motorcycle");
+                        one.setValue(Integer.parseInt(value));
+                        oneYearTotal.add(one);
+                    }
                     if(entry.getKey().toString().equals("MOTORCYCLE_50"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Motorcycle under 50cc");
+                        oneType.setName("Motor<50cc");
                         oneType.setValue(Integer.parseInt(value));
                         childrenMotor.add(oneType);
                     }
                     if(entry.getKey().toString().equals("MOTORCYCLE_125_50"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Motorcycle in 50~125cc");
+                        oneType.setName("Motor(50~125cc)");
                         oneType.setValue(Integer.parseInt(value));
                         childrenMotor.add(oneType);
                     }
                     if(entry.getKey().toString().equals("MOTORCYCLE_125_500"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Motorcycle in 125~500cc");
+                        oneType.setName("Motor(125~500cc)");
                         oneType.setValue(Integer.parseInt(value));
                         childrenMotor.add(oneType);
                     }
                     if(entry.getKey().toString().equals("MOTORCYCLE_500"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Motorcycle over 500cc");
+                        oneType.setName("Motor>500cc");
                         oneType.setValue(Integer.parseInt(value));
                         childrenMotor.add(oneType);
                     }
                     if(entry.getKey().toString().equals("CARS"))
+                    {
                         cars.setName("Car");
+                        Objects one = new Objects();
+                        one.setName("Car");
+                        one.setValue(Integer.parseInt(value));
+                        oneYearTotal.add(one);
+                    }
                     if(entry.getKey().toString().equals("TAXI"))
                     {
                         Objects oneType = new Objects();
@@ -1115,47 +1128,65 @@ public class Controller {
                         childrenCars.add(oneType);
                     }
                     if(entry.getKey().toString().equals("BUS"))
+                    {
                         bus.setName("Bus");
+                        Objects one = new Objects();
+                        one.setName("Bus");
+                        one.setValue(Integer.parseInt(value));
+                        oneYearTotal.add(one);
+                    }
                     if(entry.getKey().toString().equals("MINIBUS"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Mini bus (<= 17)");
+                        oneType.setName("Load<17");
                         oneType.setValue(Integer.parseInt(value));
                         childrenBus.add(oneType);
                     }
                     if(entry.getKey().toString().equals("COACH"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Coach (> 17)");
+                        oneType.setName("Load>17");
                         oneType.setValue(Integer.parseInt(value));
                         childrenBus.add(oneType);
                     }
 
                     if(entry.getKey().toString().equals("TRUCK"))
+                    {
                         trucks.setName("Truck");
+                        Objects one = new Objects();
+                        one.setName("Truck");
+                        one.setValue(Integer.parseInt(value));
+                        oneYearTotal.add(one);
+                    }
                     if(entry.getKey().toString().equals("TRUCKS_35TONNES"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Trucks goods < 3.5t");
+                        oneType.setName("Goods<3.5t");
                         oneType.setValue(Integer.parseInt(value));
                         childrenTrucks.add(oneType);
                     }
                     if(entry.getKey().toString().equals("TRUCKS_35_75TONNES"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Truck goods in 3.5~7.5t");
+                        oneType.setName("Goods 3.5~7.5t");
                         oneType.setValue(Integer.parseInt(value));
                         childrenTrucks.add(oneType);
                     }
                     if(entry.getKey().toString().equals("TRUCKS_75TONNES"))
                     {
                         Objects oneType = new Objects();
-                        oneType.setName("Truck goods over 7.5t");
+                        oneType.setName("Goods>7.5t");
                         oneType.setValue(Integer.parseInt(value));
                         childrenTrucks.add(oneType);
                     }
                     if(entry.getKey().toString().equals("SCOOTER"))
+                    {
                         scooter.setName("Scooter");
+                        Objects one = new Objects();
+                        one.setName("Scooter");
+                        one.setValue(Integer.parseInt(value));
+                        oneYearTotal.add(one);
+                    }
                     if(entry.getKey().toString().equals("BIKE"))
                     {
                         Objects oneType = new Objects();
@@ -1173,18 +1204,20 @@ public class Controller {
 
                 }
                 motor.setChildren(childrenMotor);
-                cars.setChildren(childrenScooter);
+                cars.setChildren(childrenCars);
                 bus.setChildren(childrenBus);
                 trucks.setChildren(childrenTrucks);
                 scooter.setChildren(childrenScooter);
                 oneYear.add(motor);
-                oneYear.add(cars);
+                // oneYear.add(cars);
                 oneYear.add(bus);
                 oneYear.add(trucks);
                 oneYear.add(scooter);
                 result.add(oneYear);
+                result.add(oneYearTotal);
             }
         }
+
         return result;
     }
 
