@@ -5,6 +5,7 @@ import comp7507.api_server.Entity.*;
 import comp7507.api_server.DAO.*;
 
 import comp7507.api_server.Entity.Objects;
+import org.json.simple.JSONObject;
 import org.springframework.aop.target.LazyInitTargetSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.util.*;
+
+import org.json.simple.JSONArray;
 
 @CrossOrigin(origins = {"*","null"})
 @RestController
@@ -147,6 +150,117 @@ public class Controller {
     }
 
 
+
+    @RequestMapping("/enginecapacity")
+    public List getEngineCapacity(){
+        List result=new ArrayList();
+        String query="SELECT `Sex_of_Driver`,`Engine_Capacity_.CC.` FROM `vehicle_information` where (`Sex_of_Driver` =\"female\" or `Sex_of_Driver` =\"male\") and `Engine_Capacity_.CC.`<>\"NA\"";
+        List<Map<String,Object>> resultList=this.jdbcTemplate.queryForList(query);
+        for(Map<String,Object> map:resultList){
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            if (entries != null)
+            {
+                Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                EngineCapacity one = new EngineCapacity();
+                while (iterator.hasNext())
+                {
+                    Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                    String value = entry.getValue().toString();
+                    if(entry.getKey().equals("Engine_Capacity_.CC."))
+                        one.setCapacity(value);
+                    if(entry.getKey().equals("Sex_of_Driver"))
+                        one.setSex(value);
+                }
+                result.add(one);
+            }
+        }
+        return result;
+    }
+
+    @RequestMapping("/gdpAccident")
+    public JSONObject getgdp(){
+        JSONObject j1=new JSONObject();
+        JSONArray a1=new JSONArray();
+        String[] s1=new String[20];
+        a1.add("Manchester");
+        a1.add("Glasgow City");
+        a1.add("Bradford");
+        a1.add("Liverpool");
+        a1.add("Sheffield");
+        a1.add("City of Edinburgh");
+        a1.add("Country Durham");
+        a1.add("Bristol, City of");
+        a1.add("Lambeth");
+        a1.add("Kirklees");
+        a1.add("Barnet");
+        a1.add("Doncaster");
+        a1.add("Ealing");
+        a1.add("Brent");
+        a1.add("Conventry");
+        a1.add("Barnsley");
+        a1.add("Oldham");
+        a1.add("Bexley");
+        a1.add("Bath and North East Somerset");
+        a1.add("Angus");
+        j1.put("counties",a1);
+        for(int i=0;i<s1.length;i++){
+            s1[i]=(String)a1.get(i);
+        }
+        List<String> l1=Arrays.asList(s1);
+        JSONArray a2=new JSONArray();
+        for(int year=2005;year<2016;year++){
+            a2.add(year);
+        }
+        j1.put("timeline",a2);
+
+        JSONArray a3=new JSONArray();
+        JSONArray a4=new JSONArray();
+        for(int year=2005;year<2016;year++){
+            JSONArray a5=new JSONArray();
+            String query="select `GDP`,`Accident`,`Population`,`City` from `gdp_population2` where Year=\""+year+"\"";
+            System.out.println(query);
+            List<Map<String,Object>> resultList=jdbcTemplate.queryForList(query);
+            for(Map<String,Object> map:resultList){
+                Set<Map.Entry<String, Object>> entries = map.entrySet();
+                if (entries != null)
+                {
+                    Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                    EngineCapacity one = new EngineCapacity();
+                    while (iterator.hasNext())
+                    {
+                        Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                        String value = entry.getValue().toString();
+                        if (entry.getKey().equals("GDP"))
+                            a5.add(Integer.parseInt(value));
+                        if (entry.getKey().equals("Accident"))
+                            a5.add(Integer.parseInt(value));
+                        if (entry.getKey().equals("Population"))
+                            a5.add(Integer.parseInt(value));
+
+                        if (entry.getKey().equals("City")){
+                            if(l1.contains(value)) {
+                                a5.add(value);
+                                a5.add(year);
+                                a4.add(a5);
+                                a5 = new JSONArray();
+                            }else{
+                                a5=new JSONArray();
+                            }
+                        }
+
+                    }
+                }
+            }
+            a3.add(a4);
+            a4=new JSONArray();
+        }
+
+        //a3.add(a6);
+        j1.put("series",a3);
+        System.out.println(j1);
+
+        return j1;
+    }
 
 
 
