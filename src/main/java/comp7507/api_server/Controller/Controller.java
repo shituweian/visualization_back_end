@@ -1079,7 +1079,7 @@ public class Controller {
         List oneYear = new ArrayList();
 
         // Get the per day's total accidents
-        String sql = "SELECT a_year, a_month, zero_to_two, two_to_four,four_to_six,six_to_eight,eight_to_ten," +
+        String sql = "SELECT a_month, a_year, zero_to_two, two_to_four,four_to_six,six_to_eight,eight_to_ten," +
                 "ten_to_twelve,twelve_to_fourteen,fourteen_to_sixteen, sixteen_to_eighteen," +
                 "eighteen_to_twenty,twenty_to_twentytwo, twentytwo_to_twentyfour FROM timeline";
         List<Map<String, Object>> queryTotal =  this.jdbcTemplate.queryForList(sql);
