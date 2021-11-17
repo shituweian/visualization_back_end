@@ -188,7 +188,7 @@ public class Controller {
         a1.add("Liverpool");
         a1.add("Sheffield");
         a1.add("City of Edinburgh");
-        a1.add("Country Durham");
+        a1.add("County Durham");
         a1.add("Bristol, City of");
         a1.add("Lambeth");
         a1.add("Kirklees");
@@ -196,7 +196,7 @@ public class Controller {
         a1.add("Doncaster");
         a1.add("Ealing");
         a1.add("Brent");
-        a1.add("Conventry");
+        a1.add("Coventry");
         a1.add("Barnsley");
         a1.add("Oldham");
         a1.add("Bexley");
@@ -262,6 +262,108 @@ public class Controller {
         return j1;
     }
 
+
+    @RequestMapping("/GDP")
+    public JSONArray getGDP(){
+        JSONObject j1=new JSONObject();
+        JSONArray a1=new JSONArray();
+
+        String[] s1=new String[20];
+        a1.add("Manchester");
+
+        a1.add("Glasgow City");
+
+        a1.add("Bradford");
+
+        a1.add("Liverpool");
+
+        a1.add("Sheffield");
+
+        a1.add("City of Edinburgh");
+
+        a1.add("County Durham");
+        a1.add("Bristol, City of");
+
+        a1.add("Lambeth");
+
+        a1.add("Kirklees");
+
+        a1.add("Barnet");
+
+        a1.add("Doncaster");
+
+        a1.add("Ealing");
+
+        a1.add("Brent");
+
+        a1.add("Coventry");
+        a1.add("Barnsley");
+
+        a1.add("Oldham");
+
+        a1.add("Bexley");
+
+        a1.add("Bath and North East Somerset");
+
+        a1.add("Angus");
+
+        for(int i=0;i<s1.length;i++){
+            s1[i]=(String)a1.get(i);
+        }
+        JSONArray a2=new JSONArray();
+        a2.add("Income");
+        a2.add("Life Expectancy");
+        a2.add("Population");
+        a2.add("Country");
+        a2.add("Year");
+        List<String> l1=Arrays.asList(s1);
+        JSONArray a3=new JSONArray();
+        a3.add(a2);
+        for(int year=2005;year<2016;year++){
+            JSONArray a5=new JSONArray();
+            String query="select `GDP`,`Accident`,`Population`,`City` from `gdp_population2` where Year=\""+year+"\"";
+            System.out.println(query);
+            List<Map<String,Object>> resultList=jdbcTemplate.queryForList(query);
+            for(Map<String,Object> map:resultList){
+                Set<Map.Entry<String, Object>> entries = map.entrySet();
+                if (entries != null)
+                {
+                    Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                    EngineCapacity one = new EngineCapacity();
+                    while (iterator.hasNext())
+                    {
+                        Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
+                        String value = entry.getValue().toString();
+                        if (entry.getKey().equals("GDP"))
+                            a5.add(Integer.parseInt(value));
+                        if (entry.getKey().equals("Accident"))
+                            a5.add(Integer.parseInt(value));
+                        if (entry.getKey().equals("Population"))
+                            a5.add(Integer.parseInt(value));
+
+                        if (entry.getKey().equals("City")){
+                            if(l1.contains(value)) {
+                                a5.add(value);
+                                a5.add(year);
+                                a3.add(a5);
+                                a5 = new JSONArray();
+                            }else{
+                                a5=new JSONArray();
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        //a3.add(a6);
+        j1.put("",a3);
+        System.out.println(j1);
+
+        return a3;
+
+    }
 
 
     @RequestMapping("/calendarData")
