@@ -1234,7 +1234,7 @@ public class Controller {
                         {
                             if(curYear != 0)
                             {
-                                System.out.println(curYear + " " + curMonth);
+                                // System.out.println(curYear + " " + curMonth);
                                 daylyTotalAccident.add(oneYear);
                             }
                             oneYear = new ArrayList();
