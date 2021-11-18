@@ -218,7 +218,7 @@ public class Controller {
         for(int year=2005;year<2016;year++){
             JSONArray a5=new JSONArray();
             String query="select `GDP`,`Accident`,`Population`,`City` from `gdp_population2` where Year=\""+year+"\"";
-            System.out.println(query);
+
             List<Map<String,Object>> resultList=jdbcTemplate.queryForList(query);
             for(Map<String,Object> map:resultList){
                 Set<Map.Entry<String, Object>> entries = map.entrySet();
@@ -257,7 +257,6 @@ public class Controller {
 
         //a3.add(a6);
         j1.put("series",a3);
-        System.out.println(j1);
 
         return j1;
     }
@@ -322,7 +321,7 @@ public class Controller {
         for(int year=2005;year<2016;year++){
             JSONArray a5=new JSONArray();
             String query="select `GDP`,`Accident`,`Population`,`City` from `gdp_population2` where Year=\""+year+"\"";
-            System.out.println(query);
+
             List<Map<String,Object>> resultList=jdbcTemplate.queryForList(query);
             for(Map<String,Object> map:resultList){
                 Set<Map.Entry<String, Object>> entries = map.entrySet();
@@ -359,7 +358,6 @@ public class Controller {
 
         //a3.add(a6);
         j1.put("",a3);
-        System.out.println(j1);
 
         return a3;
 
