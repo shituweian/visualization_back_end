@@ -1070,12 +1070,12 @@ public class Controller {
 
 
         int curMonth = 0;
-        int curYear = 0;
+        int curYear = 2005;
         List oneMonth = new ArrayList();
         List oneYear = new ArrayList();
 
         // Get the per day's total accidents
-        String sql = "SELECT a_month, a_year, zero_to_two, two_to_four,four_to_six,six_to_eight,eight_to_ten," +
+        String sql = "SELECT a_month,a_year,  zero_to_two, two_to_four,four_to_six,six_to_eight,eight_to_ten," +
                 "ten_to_twelve,twelve_to_fourteen,fourteen_to_sixteen, sixteen_to_eighteen," +
                 "eighteen_to_twenty,twenty_to_twentytwo, twentytwo_to_twentyfour FROM timeline";
         List<Map<String, Object>> queryTotal =  this.jdbcTemplate.queryForList(sql);
@@ -1086,17 +1086,15 @@ public class Controller {
             {
                 Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
                 List oneDayValue = new ArrayList();
-                // Objectwithday oneDay = new Objectwithday();
+                //objectwithday oneDay = new Objectwithday();
                 int count = 0;
-                int year=0;
                 while (iterator.hasNext())
                 {
                     Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
                     String value = entry.getValue().toString();
-
                     if(entry.getKey().toString().equals("a_month"))
                     {
-                        // count++;
+                        count++;
                         String curMon = value;
                         int entryMon = Integer.parseInt(curMon);
                         if(curMonth != entryMon)
@@ -1106,10 +1104,10 @@ public class Controller {
                             oneMonth = new ArrayList();
                             curMonth = entryMon;
                         }
-                        // oneDayValue.add(value);
-                        if(curMonth == 12 && curYear == 2015 && count == 12)
+                        oneDayValue.add(value);
+                        if(curMonth == 12 && curYear == 2015 )
                         {
-                            count = 0;
+
                             oneYear.add(oneMonth);
                             daylyTotalAccident.add(oneYear);
                         }
@@ -1174,7 +1172,6 @@ public class Controller {
                         Objects one = new Objects();
                         one.setName(entry.getKey().toString());
                         one.setValue(Integer.parseInt(value));
-
                         oneMonth.add(one);
                     }
                     if(entry.getKey().toString().equals("fourteen_to_sixteen"))
@@ -1193,7 +1190,6 @@ public class Controller {
                         Objects one = new Objects();
                         one.setName(entry.getKey().toString());
                         one.setValue(Integer.parseInt(value));
-
                         oneMonth.add(one);
                     }
                     if(entry.getKey().toString().equals("eighteen_to_twenty"))
@@ -1225,26 +1221,23 @@ public class Controller {
                     }
                     if(entry.getKey().toString().equals("a_year"))
                     {
-                        // count++;
+                        count++;
                         int enrtyYear = Integer.parseInt(value);
                         // accident_dailyaccident_daily;
                         if(curYear != enrtyYear)
                         {
-                            if(curYear != 0)
-                            {
-                                // System.out.println(curYear + " " + curMonth);
-                                daylyTotalAccident.add(oneYear);
-                            }
+                            System.out.println(curYear + " " + curMonth);
+                            daylyTotalAccident.add(oneYear);
                             oneYear = new ArrayList();
                             curYear = enrtyYear;
                         }
                     }
+
                 }
-                //oneDayValue.add(one);
+                oneMonth.add(oneDayValue);
             }
             // daylyTotalAccident.add(oneYearAccident);
         }
-
 
         // result.add(daylyTotalAccident);
         return daylyTotalAccident;
